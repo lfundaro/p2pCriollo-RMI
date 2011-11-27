@@ -1,4 +1,0 @@
-Este es un archivo de
-prueba para el proyecto 1
-Este archivo no es igual a arch1.txt
-fin
