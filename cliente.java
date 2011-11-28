@@ -120,7 +120,6 @@ public class cliente{
                             s = current_songs.get(index);
                             req = new P2pRequest(NULL_HASHID, 
                                     (s.title+"-"+s.creator).getBytes());
-                            System.out.println((s.title+"-"+s.creator));
                             // Extraer datos del archivo MP3
                             FileOutputStream fos = new FileOutputStream
                                     (download_path+"/"+
