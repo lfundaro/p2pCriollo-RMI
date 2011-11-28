@@ -59,12 +59,12 @@ public class Song{
 	location = l;
 	title = t.toLowerCase();
 	creator = c.toLowerCase();
-	node_id = n;
-        bitRate = br;
-        trackLength = tl;
-        album = abm;
-        year  = y; 
-        composer = cmp;
+	node_id = n.toLowerCase();
+        bitRate = br.toLowerCase();
+        trackLength = tl.toLowerCase();
+        album = abm.toLowerCase();
+        year  = y.toLowerCase(); 
+        composer = cmp.toLowerCase();
     }
 
     /**

@@ -119,44 +119,102 @@ public class P2pProtocolHandler implements P2pProtocol {
                 if (st.length > 1)
                     expr = st[1].toLowerCase();
                 
+                Pattern regex = Pattern.compile(expr);
+                Matcher m;
+                Collection<Song> s = SongDB.values();
+                Iterator<Song> it = s.iterator();
+                boolean match = false;
+                Song sg = new Song();
+                
+                
                 if (st[0].compareTo("W") == 0) {
                     // Todas las canciones de la red
                     resultadoFinal = SongDbToString(this.id);
                 }
                 else if (st[0].compareTo("T") == 0) {
                     // Por título
-                    Pattern regex = Pattern.compile(expr);
-                    Matcher m;
-                    Collection<Song> s = SongDB.values();
-                    Iterator<Song> it = s.iterator();
                     while (it.hasNext()) {
-                        Song sg = it.next();
+                        sg = it.next();
                         m = regex.matcher(sg.title);
                         if (m.find()) { // Hubo match
-                            resultadoFinal = resultadoFinal.concat
-                                    (sg.toString()+"@@"+
-                                    P2pProtocolHandler.host+"@@"+this.id+"##");
+                            match = true;
                         }
                         m.reset();
                     }
                 }
                 else if (st[0].compareTo("A") == 0) {
                     // Por autor
-                    Pattern regex = Pattern.compile(expr);
-                    Matcher m;
-                    Collection<Song> s = SongDB.values();
-                    Iterator<Song> it = s.iterator();
                     while (it.hasNext()) {
-                        Song sg = it.next();
+                        sg = it.next();
                         m = regex.matcher(sg.creator);
                         if (m.find()) { // Hubo match
-                            resultadoFinal = resultadoFinal.concat
-                                    (sg.toString()+"@@"+
-                                    P2pProtocolHandler.host+"@@"+this.id+"##");
+                            match = true;
                         }
                         m.reset();
                     }
                 }
+                else if (st[0].compareTo("B") == 0) {
+                    // Búsqueda por bitRate
+                    while (it.hasNext()) {
+                        sg = it.next();
+                        m = regex.matcher(sg.bitRate);
+                        if (m.find()) { // Hubo match
+                            match = true;
+                        }
+                        m.reset();
+                    }
+                }
+                else if (st[0].compareTo("TL") == 0) {
+                    // Búsqueda por bitRate
+                    while (it.hasNext()) {
+                        sg = it.next();
+                        m = regex.matcher(sg.trackLength);
+                        if (m.find()) { // Hubo match
+                            match = true;
+                        }
+                        m.reset();
+                    }
+                }
+                else if (st[0].compareTo("ABM") == 0) {
+                    // Búsqueda por bitRate
+                    while (it.hasNext()) {
+                        sg = it.next();
+                        m = regex.matcher(sg.album);
+                        if (m.find()) { // Hubo match
+                            match = true;
+                        }
+                        m.reset();
+                    }
+                }
+                else if (st[0].compareTo("Y") == 0) {
+                    // Búsqueda por bitRate
+                    while (it.hasNext()) {
+                        sg = it.next();
+                        m = regex.matcher(sg.year);
+                        if (m.find()) { // Hubo match
+                            match = true;
+                        }
+                        m.reset();
+                    }
+                }
+                else if (st[0].compareTo("C") == 0) {
+                    // Búsqueda por bitRate
+                    while (it.hasNext()) {
+                        sg = it.next();
+                        m = regex.matcher(sg.composer);
+                        if (m.find()) { // Hubo match
+                            match = true;
+                        }
+                        m.reset();
+                    }
+                }
+                // Verificar si hubo match
+                if (match) {
+                    resultadoFinal = resultadoFinal.concat
+                            (sg.toString()+"@@"+
+                            P2pProtocolHandler.host+"@@"+this.id+"##");
+                }
+                
                 // Preparar estructura de respuestas
                 String[] respuesta = new String[NodeDB.size()];
                 // Hacer consulta a mis nodos vecinos.

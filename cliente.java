@@ -11,7 +11,6 @@ import java.util.*;
  */
 public class cliente{
     private static int  NULL_HASHID = 0xffffffff;
-    private static Socket client_socket = null;
     private static int node_port = -1;
     private static String node = null;
     private static String download_path = null;
@@ -31,7 +30,7 @@ public class cliente{
         set_params(args);
         P2pProtocol stub = null;
         try {
-            Registry registry = LocateRegistry.getRegistry(node);
+            Registry registry = LocateRegistry.getRegistry(node, node_port);
             stub = (P2pProtocol) registry.lookup("P2pProtocol");
         } catch(RemoteException re) {
             System.out.println("Error: "+re);
@@ -73,17 +72,41 @@ public class cliente{
                         resto = command.split("\\s");
                         // Preparar cadena
                         if (resto.length > 1) {
+                            String expr = parseSearchEntry(resto, 2);
                             // Búsqueda por autor ?
                             if (resto[1].compareTo("-a") == 0) {
-                                String expr = parseSearchEntry(resto, 2);
                                 req = new P2pRequest(hash.hashCode(),
                                         ("A@@"+expr).getBytes());
                             }
                             // Búsqueda por título
-                            else {
-                                String expr = parseSearchEntry(resto, 2);
+                            else if (resto[1].compareTo("-t") == 0) {
                                 req = new P2pRequest(hash.hashCode(),
                                         ("T@@"+expr).getBytes());
+                            }
+                            // Búsqueda por bitRate
+                            else if (resto[1].compareTo("-b") == 0) {
+                                req = new P2pRequest(hash.hashCode(),
+                                        ("B@@"+expr).getBytes());
+                            }
+                            // Búsqueda por trackLength
+                            else if (resto[1].compareTo("-tl") == 0) {
+                                req = new P2pRequest(hash.hashCode(),
+                                        ("TL@@"+expr).getBytes());        
+                            }
+                            // Búsqueda por album
+                            else if (resto[1].compareTo("-abm") == 0) {
+                                req = new P2pRequest(hash.hashCode(),
+                                        ("ABM@@"+expr).getBytes());        
+                            }
+                            // Búsqueda por año
+                            else if (resto[1].compareTo("-y") == 0) {
+                                req = new P2pRequest(hash.hashCode(),
+                                        ("Y@@"+expr).getBytes());  
+                            }
+                            // Búsqueda por compositor
+                            else {
+                                req = new P2pRequest(hash.hashCode(),
+                                        ("C@@"+expr).getBytes());  
                             }
                         }
                         // Búsqueda de todos los archivos

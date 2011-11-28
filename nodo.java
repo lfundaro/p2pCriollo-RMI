@@ -34,14 +34,14 @@ public class nodo {
                     UnicastRemoteObject.exportObject(genericHandler, 0);
             
             // Se hace bind del objeto remoto en el registro.
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(node_port);
             registry.bind("P2pProtocol", stub);
             
 	    System.out.println("Servidor "+node_id+" listo para recibir "
                     + "ordenes");
         }
         catch(AlreadyBoundException abe) {
-            System.out.println("Error: "+abe);
+            System.out.println(": "+abe);
         }
         catch(IOException e){
 	    System.out.println("I/O Error: "+e);
