@@ -38,7 +38,8 @@ public class P2pProtocolHandler implements P2pProtocol {
      * @param musicLib Localización de la librería.
      * @param id Identificador único del nodo.
      */
-    public P2pProtocolHandler(String knownNodesFilePath, String musicLib,String id, int app_port){
+    public P2pProtocolHandler(String knownNodesFilePath, String musicLib,
+            String id, int app_port){
         ConsultDB = new ConcurrentHashMap<Integer,String>();
         NodeDB = parseKnownNodesFile(knownNodesFilePath);
         SongDB = parseSongFile(musicLib);
@@ -71,7 +72,8 @@ public class P2pProtocolHandler implements P2pProtocol {
      * @return lista enlazada de direcciones IP de los nodos conocidos por
      * este nodo.
      */
-    private ArrayList<InetAddress> parseKnownNodesFile(String knownNodesFilePath){
+    private ArrayList<InetAddress> parseKnownNodesFile(String 
+            knownNodesFilePath){
         ArrayList<InetAddress> Nodes = new ArrayList<InetAddress>();
         try {
             BufferedReader nodeFile = new BufferedReader(new
@@ -91,28 +93,6 @@ public class P2pProtocolHandler implements P2pProtocol {
 	}
         return Nodes;
     }
-    
-//    /**
-//     * Obtiene los datos del pedido a partir de una conexión con el cliente.
-//     * @param s Socket por donde se obtiene el pedido p2p.
-//     * @return Objeto que contiene los datos del pedido.
-//     */
-//    @Override
-//    public P2pRequest getRequest(Socket s) {
-//        P2pRequest req = null;
-//        try {
-//            // Preparar para leer datos
-//            ObjectInputStream is = new ObjectInputStream(s.getInputStream());
-//            req = (P2pRequest) is.readObject();
-//        }
-//        catch (ClassNotFoundException csnf) {
-//            System.out.println("Error: "+csnf);
-//        }
-//        catch (IOException e ) {
-//            System.out.println("I/O Error: "+e);
-//	}
-//        return req;
-//    }
     
     /**
      * Ejecuta un comando C.
@@ -184,8 +164,8 @@ public class P2pProtocolHandler implements P2pProtocol {
                 ConsultThread[] ct = new ConsultThread[NodeDB.size()];
                 // Crear cada uno de los threads y ejecutarlos.
                 for(int i = 0; i < NodeDB.size(); i++) {
-                    ct[i] = new ConsultThread(i, respuesta, NodeDB.get(i),
-                            req, this.app_port, this);
+                    ct[i] = new ConsultThread(i, respuesta, 
+                            NodeDB.get(i).getHostName(), req, "makeConsult");
                     ct[i].start();
                 }
                 // Espero que todos los threads terminen su ejecución
@@ -211,8 +191,7 @@ public class P2pProtocolHandler implements P2pProtocol {
      * @param nodeID Identificador único del nodo.
      * @return String representativo de la base de datos de canciones.
      */
-    @Override
-    public String SongDbToString(String nodeID) {
+    private String SongDbToString(String nodeID) {
         String resp = "";
         // Obtener todas las canciones de SongDB
         Collection<Song> s = SongDB.values();
@@ -257,8 +236,8 @@ public class P2pProtocolHandler implements P2pProtocol {
                 ConsultThread[] ct = new ConsultThread[NodeDB.size()];
                 // Crear cada uno de los threads y ejecutarlos.
                 for(int i = 0; i < NodeDB.size(); i++) {
-                    ct[i] = new ConsultThread(i, respuesta, NodeDB.get(i),
-                            req, this.app_port, this);
+                    ct[i] = new ConsultThread(i, respuesta, 
+                            NodeDB.get(i).getHostName(),req, "makeReachable");
                     ct[i].start();
                 }
                 // Espero que todos los threads terminen su ejecución
@@ -281,7 +260,6 @@ public class P2pProtocolHandler implements P2pProtocol {
             System.out.println("Interrupted exception: "+ie);
             return "";
         }
-        
     }
     
     /**
@@ -308,114 +286,12 @@ public class P2pProtocolHandler implements P2pProtocol {
         catch(FileNotFoundException fnf) {
             System.out.println("Error: "+fnf);
             return null;
-        }
-        catch(NullPointerException nl) {return null;}
-        catch(IOException e) {
+        } catch(NullPointerException nl) {
+            System.out.println("Error: "+nl);
+            return null;
+        } catch(IOException e) {
             System.out.println("Error I/O: "+e);
             return null;
         }
     }
-    
-//    /**
-//     * Permite descargar una canción desde un nodo de la red. 
-//     * @param req contiene información relevante sobre la conexión.
-//     * @param download_path ruta donde se guarda el archivo luego de descargado.
-//     * @param cs socket para establecer canal de comunicación con el servidor.
-//     * @return indica falla o éxito en la conexión.
-//     */
-//    @Override
-//    public boolean requestSong(P2pRequest req, String download_path, Socket cs){
-//	boolean result = true;
-//
-//	if(download_path == null){
-//	    System.out.println("Path de descarga nulo");
-//	    System.exit(1);
-//	}
-//        try {
-//            // Construir salida hacia el servidor
-//            ObjectOutputStream os = new ObjectOutputStream
-//                    (cs.getOutputStream());
-//            // Mandar petición al servidor
-//            os.writeObject(req);
-//            // Ahora esperar respuesta con archivo
-//            ObjectInputStream is = new ObjectInputStream(cs.getInputStream());
-//            P2pRequest ans = (P2pRequest) is.readObject();
-//            // Extraer datos del archivo MP3
-//            FileOutputStream fos = new FileOutputStream
-//                    (download_path+"/"+new String(req.data)+".mp3");
-//            fos.write(ans.data);
-//            fos.close();
-//            os.close();
-//            is.close();
-//        }
-//        catch(ClassNotFoundException cnfe) {
-//            System.out.println("Class not found: "+cnfe);
-//	    result = false;
-//        }
-//        catch(IOException e) {
-//            System.out.println("Error I/O: "+e);
-//	    result = false;
-//        }
-//
-//        return result;
-//    }
-    
-//    /**
-//     * Envía una petición de consulta al nodo.
-//     * @param req contiene información relevante sobre la conexión.
-//     * @param cs socket para establecer canal de comunicación con el servidor.
-//     * @return Resultado de la consulta. Puede cantener las canciones de toda 
-//     * la red o las canciones que satisfacen el criterio de búsqueda 
-//     * especificado.
-//     */
-//    @Override
-//    public String requestConsult(P2pRequest req, Socket cs) {
-//        String result = null;
-//        // Contruir salida hacia el servidor
-//        try {
-//            ObjectOutputStream os = new ObjectOutputStream(cs.getOutputStream());
-//            // Mandar petición al servidor
-//            os.writeObject(req);
-//            // Ahora esperar respuesta con string
-//            ObjectInputStream is = new ObjectInputStream(cs.getInputStream());
-//            P2pRequest ans = (P2pRequest) is.readObject();
-//            result = new String(ans.data);
-//        }
-//        catch(ClassNotFoundException cnfe) {
-//            System.out.println("Class not found: "+cnfe);
-//        }
-//        catch(IOException e) {
-//            System.out.println("Error I/O: "+e);
-//        }
-//        return result;
-//    }
-//    
-//    /**
-//     * Envía una petición de "Nodos alcanzables" a un nodo.
-//     * @param req contiene información relevante sobre la conexión.
-//     * @param cs socket para establecer canal de comunicación con el servidor.
-//     * @return Nodos alcanzables por el nodo al que se conecta este cliente.
-//     */
-//    @Override
-//    public String requestReachable(P2pRequest req, Socket cs) {
-//        String result = null;
-//        // Construir salida hacia el servidor
-//        try {
-//            ObjectOutputStream os = new ObjectOutputStream
-//                    (cs.getOutputStream());
-//            // Mandar petición al servidor
-//            os.writeObject(req);
-//            // Ahora esperar respuesta con string
-//            ObjectInputStream is = new ObjectInputStream(cs.getInputStream());
-//            P2pRequest ans = (P2pRequest) is.readObject();
-//            result = new String(ans.data);
-//        }
-//        catch(ClassNotFoundException cnfe) {
-//            System.out.println("Class not found: "+cnfe);
-//        }
-//        catch(IOException e) {
-//            System.out.println("Error I/O: "+e);
-//        }
-//        return result;
-//    }
 }
