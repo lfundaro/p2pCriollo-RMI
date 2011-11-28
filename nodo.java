@@ -41,7 +41,7 @@ public class nodo {
                     + "ordenes");
         }
         catch(AlreadyBoundException abe) {
-            System.out.println(": "+abe);
+            System.out.println("Error: "+abe);
         }
         catch(IOException e){
 	    System.out.println("I/O Error: "+e);
