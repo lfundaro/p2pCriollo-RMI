@@ -60,8 +60,12 @@ public class ParseMP3dir{
 	attr.setContent(tag.getFirst(ID3v24Frames.FRAME_ID_YEAR));
 	song.addChild(attr);
 
-    	attr = genAttr("composer");
-	attr.setContent(tag.getFirst(ID3v24Frames.FRAME_ID_COMPOSER));
+    	// attr = genAttr("composer");
+	// attr.setContent(tag.getFirst(ID3v24Frames.FRAME_ID_COMPOSER));
+	// song.addChild(attr);
+
+    	attr = genAttr("genre");
+	attr.setContent(tag.getFirst(ID3v24Frames.FRAME_ID_GENRE));
 	song.addChild(attr);
 
     	attr = genAttr("bitrate");

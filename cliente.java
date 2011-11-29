@@ -383,7 +383,7 @@ public class cliente{
      * @param songs Canciones que serán analizadas.
      * @return Número de caracteres del autor mas largo.
      */
-    private static int longest_composer(ArrayList<Song> songs){
+    private static int longest_genre(ArrayList<Song> songs){
         int max = 0;
         for (int i = 0; i < songs.size(); ++i){
             int aux = songs.get(i).genre.length();
@@ -467,6 +467,53 @@ public class cliente{
         if (current_songs.size() <= 0){
             return;
         }
+//	String num = "Num";
+//	String autor = "Autor";
+//	String title = "Título";
+//	String node = "Nodo";
+//	String album = "Album";
+//	String duration = "Duración";
+//	String year = "Year";
+//	String genre = "Género";
+//	String bitrate = "Bitrate";
+//
+//        int d = max(number_of_digits(current_songs.size()),num.length());
+//        int ltitle = max(longest_title(current_songs),title.length());
+//        int lcreator = max(longest_creator(current_songs),autor.length());
+//        int lnode_id = max(longest_node_id(current_songs),node.length());
+//        int lalbum = max(longest_album(current_songs),album.length());
+//        int lduration = max(longest_duration(current_songs),duration.length());
+//        int lyear = max(longest_year(current_songs),year.length());
+//        int lgenre = max(longest_genre(current_songs),genre.length());
+//        int lbitrate = max(longest_bitrate(current_songs),bitrate.length());
+//
+//        int sp = 4;
+//
+//        System.out.println(num+tab(d-num.length()+sp) + autor+tab(lcreator-title.length()+sp) +
+//			   title+tab(ltitle-title.length()+sp) + node+tab(lnode_id-node.length()+sp) +
+//			   album+tab(lalbum-album.length()+sp) + duration+tab(lduration-duration.length()+sp) +
+//			   year+tab(lyear-year.length()+sp) + genre+tab(lgenre-genre.length()+sp) +
+//			   bitrate);
+//        for (int i = 0; i < current_songs.size(); ++i){
+//            String cre = trunkate(10,current_songs.get(i).creator);
+//            String tit = trunkate(10,current_songs.get(i).title);
+//            String nid = trunkate(10,current_songs.get(i).node_id);
+//            String alb = trunkate(10,current_songs.get(i).album);
+//            String dur = trunkate(10,current_songs.get(i).trackLength);
+//            String yer = trunkate(10,current_songs.get(i).year);
+//            String gen = trunkate(10,current_songs.get(i).genre);
+//            String bit = trunkate(10,current_songs.get(i).bitRate);
+//            System.out.println(i + tab(d-number_of_digits(i)+sp)+
+//			       cre + tab(lcreator -cre.length()+sp)+
+//			       tit + tab(ltitle   -tit.length()+sp)+
+//			       nid + tab(lnode_id -nid.length()+sp)+
+//			       alb + tab(lalbum   -alb.length()+sp)+
+//			       dur + tab(lduration-dur.length()+sp)+
+//			       yer + tab(lyear    -yer.length()+sp)+
+//			       gen + tab(lgenre   -gen.length()+sp)+
+//			       bit + tab(lbitrate -bit.length()+sp));
+//        }
+//>>>>>>> 39cca232af70602a70a14c1986593d8e62e91a37
         
         for(int i = 0; i < current_songs.size(); i++) {
             System.out.println("Número: "+i);
@@ -479,6 +526,15 @@ public class cliente{
             System.out.println("BITRATE: "+current_songs.get(i).bitRate);
             System.out.println("");
         }
+    }
+
+    private static String trunkate(int max_chars, String s){
+	if(s.length() >= max_chars+3){
+	    s = s.substring(0,max_chars-1);
+	    s = s + "...";
+	}
+
+	return s;
     }
     
 //    /**

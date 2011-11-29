@@ -43,7 +43,7 @@ public class Song{
     public String year;
     
     /**
-     * Compositor
+     * Genre
      */
     public String genre;
     
@@ -59,7 +59,7 @@ public class Song{
      * @param cmp Compositor.
      */
     public Song(String l, String t, String c, String n, String br, String tl,
-            String abm, String y, String gr){
+            String abm, String y, String gen){
 	location = l;
 	title = t.toLowerCase();
 	creator = c.toLowerCase();
@@ -68,7 +68,7 @@ public class Song{
         trackLength = tl.toLowerCase();
         album = abm.toLowerCase();
         year  = y.toLowerCase();
-        genre = gr.toLowerCase();
+        genre = gen.toLowerCase();
     }
 
     /**
