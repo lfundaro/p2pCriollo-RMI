@@ -552,8 +552,13 @@ public class cliente{
         String song_data[] = s.split("@@");
         res.creator = song_data[0];
         res.title = song_data[1];
-        res.location = song_data[2];
-        res.node_id = song_data[3];
+        res.bitRate = song_data[2];
+        res.trackLength = song_data[3];
+        res.album = song_data[4];
+        res.year  = song_data[5];
+        res.composer = song_data[6];
+        res.location = song_data[7];
+        res.node_id = song_data[8];
         
         return res;
     }

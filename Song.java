@@ -82,7 +82,8 @@ public class Song{
      */
     @Override
     public String toString() {
-        String resp = creator+"@@"+title;
+        String resp = creator+"@@"+title+"@@"+bitRate+"@@"+
+                trackLength+"@@"+album+"@@"+year+"@@"+composer;
         return resp;
     }    
 }
