@@ -37,6 +37,7 @@ public class P2pProtocolHandler implements P2pProtocol {
      * @param knownNodesFilePath Localización de los nodos conocidos.
      * @param musicLib Localización de la librería.
      * @param id Identificador único del nodo.
+     * @param app_port Puerto en donde se está ejecutando la aplicación.
      */
     public P2pProtocolHandler(String knownNodesFilePath, String musicLib,
             String id, int app_port){
@@ -97,7 +98,7 @@ public class P2pProtocolHandler implements P2pProtocol {
     /**
      * Ejecuta un comando C.
      * @param req Parámetros del comando C.
-     * @param cs Socket de comunicación.
+     * @return Resultado de la consulta.
      */
     @Override
     public String makeConsult(P2pRequest req) {
@@ -265,7 +266,7 @@ public class P2pProtocolHandler implements P2pProtocol {
     /**
      * Ejecuta un comando A.
      * @param req Parámetros del comando A.
-     * @param cs Socket de comunicación.
+     * @return Lista de nodos alcanzables por este cliente/nodo.
      */
     @Override
     public String makeReachable(P2pRequest req) {
@@ -282,11 +283,12 @@ public class P2pProtocolHandler implements P2pProtocol {
                 // Agregar mi nombre
                 String resp = "";
                 resp = resp.concat(
-                        (InetAddress.getByName(this.id)).getHostName()+"##");
+//                        (InetAddress.getByName(this.id)).getHostName()+"##");
+                        this.id+"##");
                 // Agregar nombre de nodos vecinos.
-                for(int i = 0; i < NodeDB.size(); i++) {
-                    resp = resp.concat(NodeDB.get(i).getHostName()+"##");
-                }
+//                for(int i = 0; i < NodeDB.size(); i++) {
+//                    resp = resp.concat(NodeDB.get(i).getHostName()+"##");
+//                }
                 // Preparar estructura de respuestas
                 String[] respuesta = new String[NodeDB.size()];
                 // Hacer consulta a mis nodos vecinos.
@@ -310,10 +312,10 @@ public class P2pProtocolHandler implements P2pProtocol {
                 return resp;
             }
         }
-        catch(IOException e) {
-            System.out.println("Error I/O: "+e);
-            return "";
-        }
+//        catch(IOException e) {
+//            System.out.println("Error I/O: "+e);
+//            return "";
+//        }
         catch(InterruptedException ie) {
             System.out.println("Interrupted exception: "+ie);
             return "";
@@ -323,7 +325,7 @@ public class P2pProtocolHandler implements P2pProtocol {
     /**
      * Ejecuta un comando D del lado del servidor.
      * @param req Parámetros del comando D del lado del servidor.
-     * @param cs Socket de comunicación.
+     * @return Cadena de bytes que representa la canción.
      */
     @Override
     public byte[] getSong(P2pRequest req) {

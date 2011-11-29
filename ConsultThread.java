@@ -23,14 +23,13 @@ public class ConsultThread extends Thread {
     
     /**
      * Constructor.
-     * @param i posición del arreglo respuesta que le pertenece a este hilo. 
-     * @param respuesta arreglo de respuesta. El hilo escribirá su respuesta 
+     * @param i Posición del arreglo respuesta que le pertenece a este hilo. 
+     * @param respuesta Arreglo de respuesta. El hilo escribirá su respuesta 
      * en la casilla que le corresponda.
-     * @param ip dirección IP para establecer la conexión con el nodo vecino.
-     * @param req petición. Contiene la información relevante sobre la consulta:
-     * código de operación, hash identificador, etc.
-     * @param port puerto al cual se debe conectar el nodo.
-     * @param pHandler maneja la conexión con el nodo vecino.
+     * @param host Nombre del nodo vecino que lo identifica en la red.
+     * @param req Petición. Contiene la información relevante sobre la consulta:
+     * hash identificador, datos etc.
+     * @param op Operación a realizar.
      */
     public ConsultThread(int i, String[] respuesta, String host,
 			 P2pRequest req, String op) {

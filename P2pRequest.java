@@ -19,8 +19,6 @@ public class P2pRequest implements Serializable {
     }
 	
     /**
-     *
-     * @param oc Código de operación.
      * @param hi Identificador de pedido.
      * @param d  Datos.
      */
