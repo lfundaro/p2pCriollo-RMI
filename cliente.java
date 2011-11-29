@@ -518,10 +518,10 @@ public class cliente{
         return;
     }
 
-    String trunkate(int max_chars, String s){
+    private static String trunkate(int max_chars, String s){
 	if(s.length() >= max_chars+3){
-	    r = r.substring(0,max_chars-1);
-	    r = r + "...";
+	    s = s.substring(0,max_chars-1);
+	    s = s + "...";
 	}
 
 	return s;
