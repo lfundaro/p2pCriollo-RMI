@@ -447,14 +447,14 @@ public class cliente{
 			   year+tab(lyear-year.length()+sp) + composer+tab(lcomposer-composer.length()+sp) +
 			   bitrate);
         for (int i = 0; i < current_songs.size(); ++i){
-            String cre = current_songs.get(i).creator;
-            String tit = current_songs.get(i).title;
-            String nid = current_songs.get(i).node_id;
-            String alb = current_songs.get(i).album;
-            String dur = current_songs.get(i).trackLength;
-            String yer = current_songs.get(i).year;
-            String com = current_songs.get(i).composer;
-            String bit = current_songs.get(i).bitRate;
+            String cre = trunkate(10,current_songs.get(i).creator);
+            String tit = trunkate(10,current_songs.get(i).title);
+            String nid = trunkate(10,current_songs.get(i).node_id);
+            String alb = trunkate(10,current_songs.get(i).album);
+            String dur = trunkate(10,current_songs.get(i).trackLength);
+            String yer = trunkate(10,current_songs.get(i).year);
+            String com = trunkate(10,current_songs.get(i).composer);
+            String bit = trunkate(10,current_songs.get(i).bitRate);
             System.out.println(i + tab(d-number_of_digits(i)+sp)+
 			       cre + tab(lcreator -cre.length()+sp)+
 			       tit + tab(ltitle   -tit.length()+sp)+
@@ -467,6 +467,15 @@ public class cliente{
         }
         
         return;
+    }
+
+    String trunkate(int max_chars, String s){
+	if(s.length() >= max_chars+3){
+	    r = r.substring(0,max_chars-1);
+	    r = r + "...";
+	}
+
+	return s;
     }
     
     /**
