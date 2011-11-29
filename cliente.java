@@ -215,6 +215,30 @@ public class cliente{
                         running = false;
                         break;
                         
+                    case 'h':
+                    case 'H':
+                        System.out.println("Opciones:");
+                        System.out.println("-a   Mostrar nodos alcanzables.");
+                        System.out.println("-c [-t | -a | -b | -tl | -abm |"
+                                + " -y] [expr] Consultar canciones en la red.");
+                        System.out.println("     -t expr Búsqueda por título "
+                                + "según expr.");
+                        System.out.println("     -a expr Búsqueda por autor"
+                                + "según expr");
+                        System.out.println("     -b expr Búsqueda por bitRate"
+                                + "según expr");
+                        System.out.println("     -tl expr Búsqueda por "
+                                + "trackLength según expr.");
+                        System.out.println("     -abm expr Búsqueda por album"
+                                + "según expresión");
+                        System.out.println("     -y expr Búsqueda por año"
+                                + "según expresión");
+                        System.out.println("-d num Descarga canción identi"
+                                + "ficada por num");
+                        System.out.println("-p num Reproduce canción identi"
+                                + "ficada por num. Si la canción no está en la"
+                                + " carpeta de descarga, entonces se descarga y"
+                                + " se reproduce");
                     default:
                         System.out.println("Comando invalido");
                         break;
