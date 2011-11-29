@@ -116,7 +116,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                 // Verificar tipo de consulta: Autor, Titulo o todas
                 String tipoReq = new String(req.data);
                 String[] st = tipoReq.split("@@");
-                String expr = null;
+                String expr = "";
                 if (st.length > 1)
                     expr = st[1].toLowerCase();
                 
@@ -312,10 +312,6 @@ public class P2pProtocolHandler implements P2pProtocol {
                 return resp;
             }
         }
-//        catch(IOException e) {
-//            System.out.println("Error I/O: "+e);
-//            return "";
-//        }
         catch(InterruptedException ie) {
             System.out.println("Interrupted exception: "+ie);
             return "";

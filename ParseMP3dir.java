@@ -130,7 +130,6 @@ public class ParseMP3dir{
 
 	    xspf = File.createTempFile("libreria",".xspf",initial_dir);
 	    FileWriter xspfWriter = new FileWriter(xspf);
-	    System.out.println(playlist.toString());
 	    xspfWriter.write(playlist.toString());
 	    xspfWriter.flush();
 	    xspfWriter.close();

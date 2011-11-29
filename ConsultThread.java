@@ -48,15 +48,16 @@ public class ConsultThread extends Thread {
        // Crear conexión con el servidor vecino
        try {
            P2pProtocol stub = null;
-           String ans = null;
+           String ans = "";
            try {
                Registry registry = LocateRegistry.getRegistry(host);
                stub = (P2pProtocol) registry.lookup("P2pProtocol");
            } catch(RemoteException re) {
                System.out.println("Error: "+re);
-               return;
+               result[pos] = "";
            } catch(NotBoundException nbe) {
                System.out.println("Error: "+nbe);
+               result[pos] = "";
            }
            
            if (op.matches("makeConsult")) {
