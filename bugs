@@ -6,3 +6,6 @@
 - Hacer comando help en el cliente.
 - Retornar string de la canción con nuevos atributos ?
 - Probar con directorio sin mp3s.
+- Comparación por año tiene que ser exacta.
+- Corregir comparación de bitrate.
+- 

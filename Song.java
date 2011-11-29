@@ -45,7 +45,7 @@ public class Song{
     /**
      * Compositor
      */
-    public String composer;
+    public String genre;
     
     /**
      * @param l Localización de la canción.
@@ -59,7 +59,7 @@ public class Song{
      * @param cmp Compositor.
      */
     public Song(String l, String t, String c, String n, String br, String tl,
-            String abm, String y, String cmp){
+            String abm, String y, String gr){
 	location = l;
 	title = t.toLowerCase();
 	creator = c.toLowerCase();
@@ -68,7 +68,7 @@ public class Song{
         trackLength = tl.toLowerCase();
         album = abm.toLowerCase();
         year  = y.toLowerCase();
-        composer = cmp.toLowerCase();
+        genre = gr.toLowerCase();
     }
 
     /**
@@ -83,7 +83,7 @@ public class Song{
     @Override
     public String toString() {
         String resp = creator+"@@"+title+"@@"+bitRate+"@@"+
-                trackLength+"@@"+album+"@@"+year+"@@"+composer;
+                trackLength+"@@"+album+"@@"+year+"@@"+genre;
         return resp;
     }    
 }

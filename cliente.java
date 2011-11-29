@@ -165,6 +165,8 @@ public class cliente{
                                 ds.creator = s.creator;
                                 downloaded_songs.put(s.title+"-"+s.creator,ds);
                             }
+                            System.out.println(s.title+"-"+s.creator+": "
+                                    + "Descargada");
                         }
                         else{
                             System.out.println("Comando Download malformado");
@@ -384,7 +386,7 @@ public class cliente{
     private static int longest_composer(ArrayList<Song> songs){
         int max = 0;
         for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).composer.length();
+            int aux = songs.get(i).genre.length();
             if ( aux > max)
                 max = aux;
         }
@@ -461,62 +463,80 @@ public class cliente{
         return;
     }
     
-    /**
-     * Imprime las canciones que resultaron de la última consulta.
-     */
-    private static void print_songs(){
+    private static void print_songs() {
         if (current_songs.size() <= 0){
             return;
         }
-	String num = "Num";
-	String autor = "Autor";
-	String title = "Título";
-	String node = "Nodo";
-	String album = "Album";
-	String duration = "Duración";
-	String year = "Year";
-	String composer = "Compositor";
-	String bitrate = "Bitrate";
-
-        int d = max(number_of_digits(current_songs.size()),num.length());
-        int ltitle = max(longest_title(current_songs),title.length());
-        int lcreator = max(longest_creator(current_songs),autor.length());
-        int lnode_id = max(longest_node_id(current_songs),node.length());
-        int lalbum = max(longest_album(current_songs),album.length());
-        int lduration = max(longest_duration(current_songs),duration.length());
-        int lyear = max(longest_year(current_songs),year.length());
-        int lcomposer = max(longest_composer(current_songs),composer.length());
-        int lbitrate = max(longest_bitrate(current_songs),bitrate.length());
-
-        int sp = 4;
-
-        System.out.println(num+tab(d-num.length()+sp) + autor+tab(lcreator-title.length()+sp) +
-			   title+tab(ltitle-title.length()+sp) + node+tab(lnode_id-node.length()+sp) +
-			   album+tab(lalbum-album.length()+sp) + duration+tab(lduration-duration.length()+sp) +
-			   year+tab(lyear-year.length()+sp) + composer+tab(lcomposer-composer.length()+sp) +
-			   bitrate);
-        for (int i = 0; i < current_songs.size(); ++i){
-            String cre = current_songs.get(i).creator;
-            String tit = current_songs.get(i).title;
-            String nid = current_songs.get(i).node_id;
-            String alb = current_songs.get(i).album;
-            String dur = current_songs.get(i).trackLength;
-            String yer = current_songs.get(i).year;
-            String com = current_songs.get(i).composer;
-            String bit = current_songs.get(i).bitRate;
-            System.out.println(i + tab(d-number_of_digits(i)+sp)+
-			       cre + tab(lcreator -cre.length()+sp)+
-			       tit + tab(ltitle   -tit.length()+sp)+
-			       nid + tab(lnode_id -nid.length()+sp)+
-			       alb + tab(lalbum   -alb.length()+sp)+
-			       dur + tab(lduration-dur.length()+sp)+
-			       yer + tab(lyear    -yer.length()+sp)+
-			       com + tab(lcomposer-com.length()+sp)+
-			       bit + tab(lbitrate -bit.length()+sp));
-        }
         
-        return;
+        for(int i = 0; i < current_songs.size(); i++) {
+            System.out.println("Número: "+i);
+            System.out.println("TITULO: "+current_songs.get(i).title);
+            System.out.println("AUTOR: "+current_songs.get(i).creator);
+            System.out.println("ALBUM: "+current_songs.get(i).album);
+            System.out.println("DURACION: "+current_songs.get(i).trackLength);
+            System.out.println("AÑO: "+current_songs.get(i).trackLength);
+            System.out.println("GENERO: "+current_songs.get(i).genre);
+            System.out.println("BITRATE: "+current_songs.get(i).bitRate);
+            System.out.println("");
+        }
     }
+    
+//    /**
+//     * Imprime las canciones que resultaron de la última consulta.
+//     */
+//    private static void print_songs(){
+//        if (current_songs.size() <= 0){
+//            return;
+//        }
+//	String num = "Num";
+//	String autor = "Autor";
+//	String title = "Título";
+//	String node = "Nodo";
+//	String album = "Album";
+//	String duration = "Duración";
+//	String year = "Year";
+//	String genre = "Compositor";
+//	String bitrate = "Bitrate";
+//
+//        int d = max(number_of_digits(current_songs.size()),num.length());
+//        int ltitle = max(longest_title(current_songs),title.length());
+//        int lcreator = max(longest_creator(current_songs),autor.length());
+//        int lnode_id = max(longest_node_id(current_songs),node.length());
+//        int lalbum = max(longest_album(current_songs),album.length());
+//        int lduration = max(longest_duration(current_songs),duration.length());
+//        int lyear = max(longest_year(current_songs),year.length());
+//        int lcomposer = max(longest_composer(current_songs),genre.length());
+//        int lbitrate = max(longest_bitrate(current_songs),bitrate.length());
+//
+//        int sp = 4;
+//
+//        System.out.println(num+tab(d-num.length()+sp) + autor+tab(lcreator-title.length()+sp) +
+//			   title+tab(ltitle-title.length()+sp) + node+tab(lnode_id-node.length()+sp) +
+//			   album+tab(lalbum-album.length()+sp) + duration+tab(lduration-duration.length()+sp) +
+//			   year+tab(lyear-year.length()+sp) + genre+tab(lcomposer-genre.length()+sp) +
+//			   bitrate);
+//        for (int i = 0; i < current_songs.size(); ++i){
+//            String cre = current_songs.get(i).creator;
+//            String tit = current_songs.get(i).title;
+//            String nid = current_songs.get(i).node_id;
+//            String alb = current_songs.get(i).album;
+//            String dur = current_songs.get(i).trackLength;
+//            String yer = current_songs.get(i).year;
+//            String com = current_songs.get(i).genre;
+//            String bit = current_songs.get(i).bitRate;
+//            System.out.println(i + tab(d-number_of_digits(i)+sp)+
+//			       cre + tab(lcreator -cre.length()+sp)+
+//			       tit + tab(ltitle   -tit.length()+sp)+
+//			       nid + tab(lnode_id -nid.length()+sp)+
+//			       alb + tab(lalbum   -alb.length()+sp)+
+//			       dur + tab(lduration-dur.length()+sp)+
+//			       yer + tab(lyear    -yer.length()+sp)+
+//			       com + tab(lcomposer-com.length()+sp)+
+//			       bit + tab(lbitrate -bit.length()+sp));
+//        }
+//        
+//        return;
+//    }
     
     /**
      * Parsea el resultado del comando C.
@@ -548,7 +568,6 @@ public class cliente{
      */
     private static Song parse_song(String s){
         Song res = new Song();
-        
         String song_data[] = s.split("@@");
         res.creator = song_data[0];
         res.title = song_data[1];
@@ -556,10 +575,9 @@ public class cliente{
         res.trackLength = song_data[3];
         res.album = song_data[4];
         res.year  = song_data[5];
-        res.composer = song_data[6];
+        res.genre = song_data[6];
         res.location = song_data[7];
         res.node_id = song_data[8];
-        
         return res;
     }
     

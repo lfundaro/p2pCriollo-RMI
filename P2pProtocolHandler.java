@@ -166,7 +166,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                     }
                 }
                 else if (st[0].compareTo("TL") == 0) {
-                    // Búsqueda por bitRate
+                    // Búsqueda por trackLength
                     while (it.hasNext()) {
                         sg = it.next();
                         m = regex.matcher(sg.trackLength);
@@ -177,7 +177,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                     }
                 }
                 else if (st[0].compareTo("ABM") == 0) {
-                    // Búsqueda por bitRate
+                    // Búsqueda por album
                     while (it.hasNext()) {
                         sg = it.next();
                         m = regex.matcher(sg.album);
@@ -188,7 +188,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                     }
                 }
                 else if (st[0].compareTo("Y") == 0) {
-                    // Búsqueda por bitRate
+                    // Búsqueda por año
                     while (it.hasNext()) {
                         sg = it.next();
                         m = regex.matcher(sg.year);
@@ -199,10 +199,10 @@ public class P2pProtocolHandler implements P2pProtocol {
                     }
                 }
                 else if (st[0].compareTo("C") == 0) {
-                    // Búsqueda por bitRate
+                    // Búsqueda por compositor
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.composer);
+                        m = regex.matcher(sg.genre);
                         if (m.find()) { // Hubo match
                             match = true;
                         }

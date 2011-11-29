@@ -33,8 +33,12 @@ public class nodo {
             P2pProtocol stub = (P2pProtocol) 
                     UnicastRemoteObject.exportObject(genericHandler, 0);
             
+
+            
             // Se hace bind del objeto remoto en el registro.
-            Registry registry = LocateRegistry.getRegistry(node_port);
+            // Se crea el registro y se hace bind del objeto remoto
+            Registry registry = LocateRegistry.createRegistry(node_port);
+//            Registry registry = LocateRegistry.getRegistry(node_port);
             registry.bind("P2pProtocol", stub);
             
 	    System.out.println("Servidor "+node_id+" listo para recibir "
