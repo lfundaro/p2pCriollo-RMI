@@ -73,6 +73,11 @@ public class cliente{
                         // Preparar cadena
                         if (resto.length > 1) {
                             String expr = parseSearchEntry(resto, 2);
+                            if (expr.length() == 0) {
+                                System.out.println("Comando malformado");
+                                usage();
+                                break;
+                            }
                             // Búsqueda por autor ?
                             if (resto[1].compareTo("-a") == 0) {
                                 req = new P2pRequest(hash.hashCode(),
@@ -116,6 +121,7 @@ public class cliente{
                         }
                         ans = stub.makeConsult(req);
                         current_songs = parse_songs(ans);
+                        System.out.println("");
                         break;
                         
                     case 'A':
@@ -126,6 +132,7 @@ public class cliente{
                         req = new P2pRequest(hash.hashCode(), "".getBytes());
                         ans = stub.makeReachable(req);
                         print_reachable(ans);
+                        System.out.println("");
                         break;
                         
                     case 'D':
@@ -137,6 +144,7 @@ public class cliente{
                             if(index >= current_songs.size()){
                                 System.out.println("La cancion con el id "
                                         +index+" no existe");
+                                System.out.println("");
                                 break;
                             }
                             
@@ -161,6 +169,7 @@ public class cliente{
                         else{
                             System.out.println("Comando Download malformado");
                         }
+                        System.out.println("");
                         break;
                         
                     case 'P':
@@ -172,6 +181,7 @@ public class cliente{
                             if(index >= current_songs.size()){
                                 System.out.println("La cancion con el id "
                                         +index+" no existe");
+                                System.out.println("");
                                 break;
                             }
                             
@@ -208,50 +218,65 @@ public class cliente{
                         catch(IOException e){
                             System.out.println("I/O Error: "+e);
                         }
+                        System.out.println("");
                         break;
                         
                     case 'Q':
                     case 'q':
                         running = false;
+                        System.out.println("");
                         break;
                         
                     case 'h':
                     case 'H':
-                        System.out.println("Opciones:");
-                        System.out.println("-a   Mostrar nodos alcanzables.");
-                        System.out.println("-c [-t | -a | -b | -tl | -abm |"
-                                + " -y] [expr] Consultar canciones en la red.");
-                        System.out.println("     -t expr Búsqueda por título "
-                                + "según expr.");
-                        System.out.println("     -a expr Búsqueda por autor"
-                                + "según expr");
-                        System.out.println("     -b expr Búsqueda por bitRate"
-                                + "según expr");
-                        System.out.println("     -tl expr Búsqueda por "
-                                + "trackLength según expr.");
-                        System.out.println("     -abm expr Búsqueda por album"
-                                + "según expresión");
-                        System.out.println("     -y expr Búsqueda por año"
-                                + "según expresión");
-                        System.out.println("-d num Descarga canción identi"
-                                + "ficada por num");
-                        System.out.println("-p num Reproduce canción identi"
-                                + "ficada por num. Si la canción no está en la"
-                                + " carpeta de descarga, entonces se descarga y"
-                                + " se reproduce");
+                        usage();
+                        break;
+                        
                     default:
                         System.out.println("Comando invalido");
+                        System.out.println("");
                         break;
                 }
             }
         } catch(RemoteException re) {
             System.out.println("Error: "+re);
-            return;
+            System.out.println("");
         } catch(UnknownHostException ue) {
             System.out.println("Error: "+ue);
+            System.out.println("");
         } catch(IOException e) {
             System.out.println("Error I/O: "+e);
+            System.out.println("");
         }
+    }
+    
+    /**
+     * Uso de comandos
+     */
+    private static void usage() {
+        System.out.println("Opciones:");
+        System.out.println("-a   Mostrar nodos alcanzables.");
+        System.out.println("-c [-t | -a | -b | -tl | -abm |"
+                + " -y] [expr] Consultar canciones en la red.");
+        System.out.println("     -t expr Búsqueda por título "
+                + "según expresión.");
+        System.out.println("     -a expr Búsqueda por autor "
+                + "según expresión.");
+        System.out.println("     -b expr Búsqueda por bitRate "
+                + "según expresión.");
+        System.out.println("     -tl expr Búsqueda por "
+                + "trackLength según expr.");
+        System.out.println("     -abm expr Búsqueda por album "
+                + "según expresión.");
+        System.out.println("     -y expr Búsqueda por año "
+                + "según expresión");
+        System.out.println("-d num Descarga canción identi"
+                + "ficada por num");
+        System.out.println("-p num Reproduce canción identi"
+                + "ficada por num. Si la canción no está en la"
+                + " carpeta de descarga, entonces se descarga y"
+                + " se reproduce.");
+        System.out.println("");
     }
     
     /**
@@ -416,6 +441,7 @@ public class cliente{
      * @return Objeto Song con la información de la canción.
      */
     private static String parseSearchEntry(String[] resto, int startPoint) {
+        if (resto.length < 3) return "";
         String expr = new String();
         int i = startPoint;
         for(i = startPoint; i < resto.length - 1; i++){
