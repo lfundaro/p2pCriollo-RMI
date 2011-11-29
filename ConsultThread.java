@@ -1,7 +1,9 @@
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  *
@@ -15,10 +17,9 @@ import java.net.Socket;
 public class ConsultThread extends Thread {
     int pos;
     String[] result;
-    InetAddress ip;
+    String host;
     P2pRequest req;
-    int port;
-    P2pProtocolHandler p2pHandler;
+    String op;
     
     /**
      * Constructor.
@@ -31,14 +32,13 @@ public class ConsultThread extends Thread {
      * @param port puerto al cual se debe conectar el nodo.
      * @param pHandler maneja la conexión con el nodo vecino.
      */
-    public ConsultThread(int i, String[] respuesta, InetAddress ip,
-			 P2pRequest req, int port, P2pProtocolHandler pHandler) {
+    public ConsultThread(int i, String[] respuesta, String host,
+			 P2pRequest req, String op) {
         pos = i;
         result = respuesta;
-        this.ip = ip;
+        this.host = host;
         this.req = req;
-        this.port = port; 
-        this.p2pHandler = pHandler;
+        this.op = op;
     }
    
    /**
@@ -47,10 +47,25 @@ public class ConsultThread extends Thread {
    @Override
    public void run() {
        // Crear conexión con el servidor vecino
-        try { 
-            Socket sok = new Socket(this.ip, this.port);
-            result[pos] = p2pHandler.requestConsult(req, sok);
-            sok.close();
+       try {
+           P2pProtocol stub = null;
+           String ans = null;
+           try {
+               Registry registry = LocateRegistry.getRegistry(host);
+               stub = (P2pProtocol) registry.lookup("P2pProtocol");
+           } catch(RemoteException re) {
+               System.out.println("Error: "+re);
+               return;
+           } catch(NotBoundException nbe) {
+               System.out.println("Error: "+nbe);
+           }
+           
+           if (op.matches("makeConsult")) {
+               ans = stub.makeConsult(req);
+           } else if (op.matches("makeReachable")) {
+               ans = stub.makeReachable(req);
+           }
+            result[pos] = ans;
         }
         catch(IOException e) {
             result[pos] = "";

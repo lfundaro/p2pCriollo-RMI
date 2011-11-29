@@ -7,7 +7,6 @@ import java.io.Serializable;
 public class P2pRequest implements Serializable {
     static final long serialVersionUID = 0;
 
-    int op_code;
     int hash_id;
     byte[] data;
 	
@@ -15,7 +14,6 @@ public class P2pRequest implements Serializable {
      * Constructor por defecto.
      */
     public P2pRequest(){
-	op_code = 0;
 	hash_id = 0;
         data = null;
     }
@@ -26,8 +24,7 @@ public class P2pRequest implements Serializable {
      * @param hi Identificador de pedido.
      * @param d  Datos.
      */
-    public P2pRequest(int oc, int hi,byte[] d){
-	op_code = oc;
+    public P2pRequest(int hi,byte[] d){
 	hash_id = hi;
         data = d;
     }

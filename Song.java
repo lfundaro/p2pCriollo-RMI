@@ -23,17 +23,48 @@ public class Song{
     public String creator;
     
     /**
+     * Bitrate
+     */
+    public String bitRate;
+    
+    /**
+     * Tracklength
+     */
+    public String trackLength;
+    
+    /**
+     * Album
+     */
+    public String album;
+    
+    /**
+     * Año
+     */
+    public String year;
+    
+    /**
+     * Compositor
+     */
+    public String composer;
+    
+    /**
      * 
      * @param l Localización de la canción.
      * @param t Título de la canción.
      * @param c Creador de la canción.
      * @param n Identificador único del nodo que tiene la canción.
      */
-    public Song(String l, String t, String c, String n){
-	location = l.toLowerCase();
+    public Song(String l, String t, String c, String n, String br, String tl,
+            String abm, String y, String cmp){
+	location = l;
 	title = t.toLowerCase();
 	creator = c.toLowerCase();
-	node_id = n;
+	node_id = n.toLowerCase();
+        bitRate = br.toLowerCase();
+        trackLength = tl.toLowerCase();
+        album = abm.toLowerCase();
+        year  = y.toLowerCase(); 
+        composer = cmp.toLowerCase();
     }
 
     /**
@@ -52,5 +83,3 @@ public class Song{
     }
             
 }
-
-// Condiciónó

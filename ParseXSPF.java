@@ -37,7 +37,8 @@ public class ParseXSPF{
 	    
 	    if(xspf.getName().compareTo("playlist") == 0){
 		//Busco el elemento trackList
-		Enumeration<XMLElement> playlistContents = xspf.enumerateChildren();
+		Enumeration<XMLElement> playlistContents = 
+                        xspf.enumerateChildren();
 		XMLElement trackList = null;
 		do{
 		    trackList = (XMLElement) playlistContents.nextElement();
@@ -45,7 +46,8 @@ public class ParseXSPF{
 		       (trackList.getName().compareTo("trackList") != 0));
 
 		if(trackList == null){
-		    System.out.println("Error, lista de reproduccion mal formateada: "
+		    System.out.println("Error, lista de reproduccion mal"
+                            + " formateada: "
                             + "No se encontro trackList");
 		    System.exit(1);
 		}
@@ -64,8 +66,10 @@ public class ParseXSPF{
 		}
 	    }
 	    else{
-		System.out.println("Error, lista de reproduccion mal formateada: "
-                        + "No se encontró elemento playlist en el tope del árbol");
+		System.out.println("Error, lista de reproduccion mal "
+                        + "formateada: "
+                        + "No se encontró elemento playlist en el tope "
+                        + "del árbol");
 		System.exit(1);
 	    }
 	}
@@ -89,11 +93,12 @@ public class ParseXSPF{
      */
     public static void get_xspf_attr(XMLElement attr, Song s){
 	String attr_name = attr.getName();
-
+        
 	if (attr_name.compareTo("title") == 0){
 	    s.title = attr.getContent().toLowerCase();
-	}
-	else if (attr_name.compareTo("creator") == 0){
+	} else if (attr_name.compareTo("location") == 0) {
+           s.location = attr.getContent(); 
+        } else if (attr_name.compareTo("creator") == 0){
 	    s.creator = attr.getContent().toLowerCase();
 	}
     }

@@ -1,10 +1,14 @@
-import java.net.*;
 import java.io.*;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 /**
  * Clase del servidor.
  */
-public class Node {
+public class nodo {
     private static int node_port;
     private static String node_id;
     private static String music_library_filepath;
@@ -15,33 +19,29 @@ public class Node {
      * 
      * @param args Argumentos de la línea de comandos.
      */
-    public static void main(String[] args){
+    public static void main(String[] args) throws RemoteException {
         //mainThread = Thread.currentThread();
         
         //Parseo de parámetros
         set_params(args);
         
         try{
-	    System.out.println("Servidor "+node_id+" estableciendo puerto de escucha");
-            ServerSocket node_socket = new ServerSocket(node_port);
-            Socket client_socket = null;
-            
             // Crear P2pProtocolHandler genérico 
             P2pProtocolHandler genericHandler = 
-                    new P2pProtocolHandler(known_nodes_filepath,
-					   music_library_filepath, node_id);
+                    new P2pProtocolHandler(known_nodes_filepath,	   
+                            music_library_filepath, node_id, node_port);
+            P2pProtocol stub = (P2pProtocol) 
+                    UnicastRemoteObject.exportObject(genericHandler, 0);
             
-	    System.out.println("Servidor "+node_id+" listo para recibir ordenes");
-            //Loop principal del servidor
-            while(true){
-                client_socket = node_socket.accept();
-                new ClientRequestThread(client_socket, 
-                        genericHandler).start();
-            }
+            // Se hace bind del objeto remoto en el registro.
+            Registry registry = LocateRegistry.getRegistry(node_port);
+            registry.bind("P2pProtocol", stub);
+            
+	    System.out.println("Servidor "+node_id+" listo para recibir "
+                    + "ordenes");
         }
-        catch(FileNotFoundException fnf) {
-            System.out.println("Error al abrir archivo "
-                    +known_nodes_filepath+" :"+fnf);
+        catch(AlreadyBoundException abe) {
+            System.out.println("Error: "+abe);
         }
         catch(IOException e){
 	    System.out.println("I/O Error: "+e);
