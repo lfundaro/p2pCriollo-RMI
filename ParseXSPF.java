@@ -6,9 +6,9 @@ import java.io.*;
  * Parser XSPF
  */
 public class ParseXSPF{
-    public static void main(String args[]){
-	parse(args[0]);
-    }
+    // public static void main(String args[]){
+    // 	parse(args[0]);
+    // }
 
     /**
      * Parser de archivos XSPF.
@@ -19,10 +19,20 @@ public class ParseXSPF{
     @SuppressWarnings("unchecked")
     public static HashMap<String,Song> parse(String filename){
 	HashMap<String,Song> sl = new HashMap<String,Song>();
+	String library_filename = null;
 
 	try{
+	    File f = new File(filename);
+
+	    if(f.isDirectory()){
+		library_filename = ParseMP3dir.parse(filename);
+	    }
+	    else{
+		library_filename = filename;
+	    }
+
 	    XMLElement xspf = new XMLElement();
-	    FileReader reader = new FileReader(filename);
+	    FileReader reader = new FileReader(library_filename);
 	    xspf.parseFromReader(reader);
 	    
 	    if(xspf.getName().compareTo("playlist") == 0){
@@ -61,6 +71,13 @@ public class ParseXSPF{
 	}
 	catch(Exception e){}
 	
+	//try{
+	    (new File(library_filename)).delete();
+	// }
+	// catch(IOException e){
+	//     System.out.println(e);
+	//     System.exit(0);
+	// }
 	return sl;
     }
 
