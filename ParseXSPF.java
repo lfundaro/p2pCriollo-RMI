@@ -20,11 +20,12 @@ public class ParseXSPF{
     public static HashMap<String,Song> parse(String filename){
 	HashMap<String,Song> sl = new HashMap<String,Song>();
 	String library_filename = null;
-
+	boolean directory_library = false;
 	try{
 	    File f = new File(filename);
 
 	    if(f.isDirectory()){
+		directory_library = true;
 		library_filename = ParseMP3dir.parse(filename);
 	    }
 	    else{
@@ -75,13 +76,10 @@ public class ParseXSPF{
 	}
 	catch(Exception e){}
 	
-	//try{
+	if(directory_library){
 	    (new File(library_filename)).delete();
-	// }
-	// catch(IOException e){
-	//     System.out.println(e);
-	//     System.exit(0);
-	// }
+	}
+
 	return sl;
     }
 
