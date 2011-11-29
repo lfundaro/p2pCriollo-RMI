@@ -43,9 +43,9 @@ public class Song{
     public String year;
     
     /**
-     * Compositor
+     * Genre
      */
-    public String composer;
+    public String genre;
     
     /**
      * @param l Localización de la canción.
@@ -83,7 +83,7 @@ public class Song{
     @Override
     public String toString() {
         String resp = creator+"@@"+title+"@@"+bitRate+"@@"+
-                trackLength+"@@"+album+"@@"+year+"@@"+composer;
+                trackLength+"@@"+album+"@@"+year+"@@"+genre;
         return resp;
     }    
 }

@@ -381,10 +381,10 @@ public class cliente{
      * @param songs Canciones que serán analizadas.
      * @return Número de caracteres del autor mas largo.
      */
-    private static int longest_composer(ArrayList<Song> songs){
+    private static int longest_genre(ArrayList<Song> songs){
         int max = 0;
         for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).composer.length();
+            int aux = songs.get(i).genre.length();
             if ( aux > max)
                 max = aux;
         }
@@ -475,7 +475,7 @@ public class cliente{
 	String album = "Album";
 	String duration = "Duración";
 	String year = "Year";
-	String composer = "Compositor";
+	String genre = "Género";
 	String bitrate = "Bitrate";
 
         int d = max(number_of_digits(current_songs.size()),num.length());
@@ -485,7 +485,7 @@ public class cliente{
         int lalbum = max(longest_album(current_songs),album.length());
         int lduration = max(longest_duration(current_songs),duration.length());
         int lyear = max(longest_year(current_songs),year.length());
-        int lcomposer = max(longest_composer(current_songs),composer.length());
+        int lgenre = max(longest_genre(current_songs),genre.length());
         int lbitrate = max(longest_bitrate(current_songs),bitrate.length());
 
         int sp = 4;
@@ -493,7 +493,7 @@ public class cliente{
         System.out.println(num+tab(d-num.length()+sp) + autor+tab(lcreator-title.length()+sp) +
 			   title+tab(ltitle-title.length()+sp) + node+tab(lnode_id-node.length()+sp) +
 			   album+tab(lalbum-album.length()+sp) + duration+tab(lduration-duration.length()+sp) +
-			   year+tab(lyear-year.length()+sp) + composer+tab(lcomposer-composer.length()+sp) +
+			   year+tab(lyear-year.length()+sp) + genre+tab(lgenre-genre.length()+sp) +
 			   bitrate);
         for (int i = 0; i < current_songs.size(); ++i){
             String cre = trunkate(10,current_songs.get(i).creator);
@@ -502,7 +502,7 @@ public class cliente{
             String alb = trunkate(10,current_songs.get(i).album);
             String dur = trunkate(10,current_songs.get(i).trackLength);
             String yer = trunkate(10,current_songs.get(i).year);
-            String com = trunkate(10,current_songs.get(i).composer);
+            String gen = trunkate(10,current_songs.get(i).genre);
             String bit = trunkate(10,current_songs.get(i).bitRate);
             System.out.println(i + tab(d-number_of_digits(i)+sp)+
 			       cre + tab(lcreator -cre.length()+sp)+
@@ -511,7 +511,7 @@ public class cliente{
 			       alb + tab(lalbum   -alb.length()+sp)+
 			       dur + tab(lduration-dur.length()+sp)+
 			       yer + tab(lyear    -yer.length()+sp)+
-			       com + tab(lcomposer-com.length()+sp)+
+			       gen + tab(lgenre   -gen.length()+sp)+
 			       bit + tab(lbitrate -bit.length()+sp));
         }
         
@@ -565,7 +565,7 @@ public class cliente{
         res.trackLength = song_data[3];
         res.album = song_data[4];
         res.year  = song_data[5];
-        res.composer = song_data[6];
+        res.genre = song_data[6];
         res.location = song_data[7];
         res.node_id = song_data[8];
         
