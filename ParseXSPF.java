@@ -111,7 +111,7 @@ public class ParseXSPF{
 	    s.year = attr.getContent().toLowerCase();
 	}
 	else if (attr_name.compareTo("composer") == 0){
-	    s.composer = attr.getContent().toLowerCase();
+	    s.genre = attr.getContent().toLowerCase();
 	}
 	else if (attr_name.compareTo("bitrate") == 0){
 	    s.bitRate = attr.getContent().toLowerCase();

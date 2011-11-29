@@ -202,7 +202,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                     // Búsqueda por bitRate
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.composer);
+                        m = regex.matcher(sg.genre);
                         if (m.find()) { // Hubo match
                             match = true;
                         }
