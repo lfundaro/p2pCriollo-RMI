@@ -53,6 +53,11 @@ public class Song{
      * @param t Título de la canción.
      * @param c Creador de la canción.
      * @param n Identificador único del nodo que tiene la canción.
+     * @param br BitRate
+     * @param tl Tamaño de la pista.
+     * @param abm Album.
+     * @param y Año.
+     * @param cmp Compositor.
      */
     public Song(String l, String t, String c, String n, String br, String tl,
             String abm, String y, String cmp){
@@ -80,6 +85,5 @@ public class Song{
     public String toString() {
         String resp = creator+"@@"+title;
         return resp;
-    }
-            
+    }    
 }
