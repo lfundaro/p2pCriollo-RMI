@@ -2,11 +2,11 @@ JAVAC = javac
 OPS =
 LINK_OPS =
 ID3LIB = jaudiotagger.jar
-NANOXMLPATH = redes/nanoxml/java/nanoxml-lite-2.2.3.jar
+NANOXMLPATH = nanoxml.jar
 #NANOXMLPATH = /net/raquella/ldc/redes/nanoxml/java/nanoxml-lite-2.2.3.jar
 PARSER_OBJS = Song.java ParseXSPF.java ParseMP3dir.java
-NODE_OBJS = $(PARSER_OBJS) P2pRequest.java P2pProtocolHandler.java ConsultThread.java ClientRequestThread.java 
-CLIENT_OBJS = Song.java ConsultThread.java P2pProtocolHandler.java P2pRequest.java ServerRequest.java
+NODE_OBJS = $(PARSER_OBJS) P2pRequest.java P2pProtocolHandler.java ConsultThread.java P2pProtocol.java
+CLIENT_OBJS = Song.java ConsultThread.java P2pProtocolHandler.java P2pRequest.java
 
 use:
 	echo -e 'Uso: make <cliente|nodo|all>'
@@ -14,10 +14,10 @@ use:
 all: node client
 
 client: $(CLIENT_OBJS)
-	$(JAVAC) Client.java $(CLIENT_OBJS)
+	$(JAVAC) cliente.java $(CLIENT_OBJS)
 
 node: $(NODE_OBJS)
-	$(JAVAC) Node.java $(NODE_OBJS) -classpath $(NANOXMLPATH):$(ID3LIB)
+	$(JAVAC) nodo.java $(NODE_OBJS) -classpath $(NANOXMLPATH):$(ID3LIB)
 
 clean:
 	rm -rf *.class *.o Node Client parseXSPF

@@ -48,7 +48,6 @@ public class Song{
     public String composer;
     
     /**
-     * 
      * @param l Localización de la canción.
      * @param t Título de la canción.
      * @param c Creador de la canción.
@@ -68,7 +67,7 @@ public class Song{
         bitRate = br.toLowerCase();
         trackLength = tl.toLowerCase();
         album = abm.toLowerCase();
-        year  = y.toLowerCase(); 
+        year  = y.toLowerCase();
         composer = cmp.toLowerCase();
     }
 

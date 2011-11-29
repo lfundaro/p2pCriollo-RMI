@@ -94,12 +94,29 @@ public class ParseXSPF{
     public static void get_xspf_attr(XMLElement attr, Song s){
 	String attr_name = attr.getName();
         
-	if (attr_name.compareTo("title") == 0){
+	if (attr_name.compareTo("location") == 0) {
+	    s.location = attr.getContent(); 
+        }
+	else if (attr_name.compareTo("title") == 0){
 	    s.title = attr.getContent().toLowerCase();
-	} else if (attr_name.compareTo("location") == 0) {
-           s.location = attr.getContent(); 
-        } else if (attr_name.compareTo("creator") == 0){
+	}
+	else if (attr_name.compareTo("creator") == 0){
 	    s.creator = attr.getContent().toLowerCase();
+	}
+	else if (attr_name.compareTo("album") == 0){
+	    s.album = attr.getContent().toLowerCase();
+	}
+	else if (attr_name.compareTo("duration") == 0){
+	    s.trackLength = attr.getContent().toLowerCase();
+	}
+	else if (attr_name.compareTo("year") == 0){
+	    s.year = attr.getContent().toLowerCase();
+	}
+	else if (attr_name.compareTo("composer") == 0){
+	    s.composer = attr.getContent().toLowerCase();
+	}
+	else if (attr_name.compareTo("bitrate") == 0){
+	    s.bitRate = attr.getContent().toLowerCase();
 	}
     }
 }

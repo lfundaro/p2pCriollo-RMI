@@ -331,15 +331,15 @@ public class cliente{
         int sp = 4;
         
         System.out.println("Num"+tab(d-3+sp)+"Autor"+tab(lc-5+sp)+
-                "Titulo"+tab(lt-6+sp)+"Nodo");
+			   "Titulo"+tab(lt-6+sp)+"Nodo");
         for (int i = 0; i < current_songs.size(); ++i){
             String c = current_songs.get(i).creator;
             String t = current_songs.get(i).title;
             String l = current_songs.get(i).node_id;
             System.out.println(i + tab(d-number_of_digits(i)+sp)+
-                    c + tab(lc-c.length()+sp)+
-                    t + tab(lt-t.length()+sp)+
-                    l);
+			       c + tab(lc-c.length()+sp)+
+			       t + tab(lt-t.length()+sp)+
+			       l);
         }
         
         return;
