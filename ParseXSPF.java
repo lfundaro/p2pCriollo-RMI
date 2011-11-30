@@ -43,6 +43,9 @@ public class ParseXSPF{
 		System.exit(1);
 	    }
 
+            library_filename = ParseMP3dir.parse(library_filename);
+            System.out.println(library_filename+"sadf");
+            
 	    XMLElement xspf = new XMLElement();
 	    FileReader reader = new FileReader(library_filename);
 	    xspf.parseFromReader(reader);
