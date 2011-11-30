@@ -38,7 +38,7 @@ public class ParseXSPF{
                         xspf.enumerateChildren();
 		XMLElement trackList = null;
 		do{
-		    trackList = (XMLElement) playlistContents.nextElement();
+		    trackList = playlistContents.nextElement();
 		}while((trackList != null)&&
 		       (trackList.getName().compareTo("trackList") != 0));
 
@@ -52,11 +52,11 @@ public class ParseXSPF{
 		//Itero sobre las canciones
 		Enumeration<XMLElement> tracks = trackList.enumerateChildren();
 		while(tracks.hasMoreElements()){
-		    XMLElement track = (XMLElement)tracks.nextElement();
+		    XMLElement track = tracks.nextElement();
 		    Song s = new Song();
 		    Enumeration<XMLElement> attrs = track.enumerateChildren();
 		    while(attrs.hasMoreElements()){
-			XMLElement attr = (XMLElement)attrs.nextElement();
+			XMLElement attr = attrs.nextElement();
 			get_xspf_attr(attr,s);
 		    }
 		    sl.put(s.title+"-"+s.creator,s);

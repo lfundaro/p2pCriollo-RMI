@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
  * Manejador del protocolo p2p.
  */
 public class P2pProtocolHandler implements P2pProtocol {
-    private final int  NULL_HASHID       = 0xffffffff;
     // Estructuras de control
     private static HashMap<String,Song> SongDB;
     private static ArrayList<InetAddress> NodeDB;
@@ -100,7 +99,7 @@ public class P2pProtocolHandler implements P2pProtocol {
      * @param req Parámetros del comando C.
      * @return Resultado de la consulta.
      */
-    @Override
+    //@Override
     public String makeConsult(P2pRequest req) {
         // Crear comunicación con el cliente
         try {
@@ -275,7 +274,7 @@ public class P2pProtocolHandler implements P2pProtocol {
      * @param req Parámetros del comando A.
      * @return Lista de nodos alcanzables por este cliente/nodo.
      */
-    @Override
+    //@Override
     public String makeReachable(P2pRequest req) {
         // Mandar respuesta al cliente
         try {
@@ -325,7 +324,7 @@ public class P2pProtocolHandler implements P2pProtocol {
      * @param req Parámetros del comando D del lado del servidor.
      * @return Cadena de bytes que representa la canción.
      */
-    @Override
+    //@Override
     public byte[] getSong(P2pRequest req) {
         // Nombre de archivo ?
         String nombreMP3 = new String(req.data);

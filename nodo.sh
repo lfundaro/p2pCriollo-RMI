@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -o verbose
-set -o xtrace
+#set -o verbose
+#set -o xtrace
 
 if ! test -a nodo.class
 then
@@ -42,4 +42,7 @@ KNOWNS=${KNOWNS:?Lista de nodos adyacentes no especificada}
 LIBRARY=${LIBRARY:?Libreria de musica no especificada}
 ID=${ID:?Id del nodo no especificada}
 
-java -classpath nanoxml.jar:jaudiotagger.jar:. -Djava.rmi.server.codebase=file:output/ nodo -p $PORT -c $KNOWNS -b $LIBRARY -i $ID
+NANOXML=/net/raquella/ldc/redes/nanoxml/java/nanoxml-lite-2.2.3.jar
+#NANOXML=nanoxml.jar
+
+java -classpath ${NANOXML}:jaudiotagger.jar:. -Djava.rmi.server.codebase=file:output/ nodo -p $PORT -c $KNOWNS -b $LIBRARY -i $ID

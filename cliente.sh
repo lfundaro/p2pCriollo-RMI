@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -o verbose
-set -o xtrace
+#set -o verbose
+#set -o xtrace
 
 if ! test -a cliente.class
 then
