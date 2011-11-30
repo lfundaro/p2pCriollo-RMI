@@ -94,55 +94,78 @@ public class ParseMP3dir{
     }
 
     /**
-     * Parseador de archivos XSPF.
+     * Parseador del directorio con la biblioteca MP3
      * @param lib Directorio con los archivos mp3 a parsear
      * @return Nombre del archivo XSPF generado
      */
     public static String parse(String lib){
 	File xspf = null;
-	try{
-	    XMLElement playlist  = new XMLElement();
-	    playlist.setName("playlist");
 
-	    XMLElement trackList = new XMLElement();
-	    trackList.setName("trackList");
+	XMLElement playlist  = new XMLElement();
+	playlist.setName("playlist");
 
-	    playlist.addChild(trackList);
+	XMLElement trackList = new XMLElement();
+	trackList.setName("trackList");
 
-	    LinkedList<File> dirs = new LinkedList<File>();
-	    //Añadimos el directorio inicial
-	    File initial_dir = new File(lib);
-	    if(!initial_dir.isDirectory())
-		return "";
-	    dirs.add(initial_dir);
+	playlist.addChild(trackList);
 
-	    while(dirs.size() > 0){
-		File d = dirs.remove();
-		File[] fls = d.listFiles();
-		for(File f: fls){
-		    if(f.isDirectory()){
-			dirs.add(f);
+	LinkedList<File> dirs = new LinkedList<File>();
+	//Añadimos el directorio inicial
+	File initial_dir = new File(lib);
+	System.out.println(initial_dir.getAbsolutePath()+" no existe");
+	if(!initial_dir.exists()){
+	    System.out.println(initial_dir.getAbsolutePath()+" no existe");
+	    System.exit(1);
+	}
+	    
+	if(!initial_dir.isDirectory()){
+	    System.out.println(initial_dir.getAbsolutePath()+" no es un directorio");
+	    System.exit(1);
+	}
+
+	boolean failed = false;
+	if(!initial_dir.canExecute()){
+	    System.out.println("No se tienen permisos de ejecución sobre "+initial_dir.getAbsolutePath());
+	    failed = true;
+	}
+	if(!initial_dir.canRead()){
+	    System.out.println("No se tienen permisos de lectura sobre "+initial_dir.getAbsolutePath());
+	    failed = true;
+	}
+	if(failed){
+	    System.exit(1);
+	}
+
+	dirs.add(initial_dir);
+
+	while(dirs.size() > 0){
+	    File d = dirs.remove();
+	    File[] fls = d.listFiles();
+	    for(File f: fls){
+		if(f.isDirectory()){
+		    dirs.add(f);
+		}
+		else{
+		    MP3File mp3 = null;
+		    try{
+			mp3 = (MP3File)AudioFileIO.read(f);
+		    }
+		    catch(Exception e){}
+		    if((mp3 != null)&&(mp3.hasID3v2Tag())){
+			ID3v24Tag tag = mp3.getID3v2TagAsv24();
+			MP3AudioHeader header = mp3.getMP3AudioHeader();
+			    
+			printStuff(tag,header);
+			addSong(f,tag,header,trackList);
 		    }
 		    else{
-			MP3File mp3 = null;
-			try{
-			    mp3 = (MP3File)AudioFileIO.read(f);
-			}
-			catch(Exception e){}
-			if((mp3 != null)&&(mp3.hasID3v2Tag())){
-			    ID3v24Tag tag = mp3.getID3v2TagAsv24();
-			    MP3AudioHeader header = mp3.getMP3AudioHeader();
-			    
-			    printStuff(tag,header);
-			    addSong(f,tag,header,trackList);
-			}
-			else{
-			    System.out.println("El archivo "+f+" no tiene un tag ID3v2\n");
-			}
+			System.out.println("El archivo "+f+" no tiene un tag ID3v2\n");
 		    }
 		}
 	    }
+	}
 
+	try{
 	    xspf = File.createTempFile("libreria",".xspf",initial_dir);
 	    FileWriter xspfWriter = new FileWriter(xspf);
 	    xspfWriter.write(playlist.toString());
@@ -151,6 +174,7 @@ public class ParseMP3dir{
 	}
 	catch(Exception e){
 	    System.out.println(e);
+	    System.exit(1);
 	}
 
 	return xspf.getAbsolutePath();

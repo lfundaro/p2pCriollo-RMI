@@ -13,19 +13,34 @@ public class ParseXSPF{
      *         con el autor de la canción a objetos de tipo Song.
      */
     @SuppressWarnings("unchecked")
-    public static HashMap<String,Song> parse(String filename){
+	public static HashMap<String,Song> parse(String filename){
 	HashMap<String,Song> sl = new HashMap<String,Song>();
 	String library_filename = null;
 	boolean directory_library = false;
 	try{
 	    File f = new File(filename);
 
-	    if(f.isDirectory()){
-		directory_library = true;
-		library_filename = ParseMP3dir.parse(filename);
+	    if(!f.exists()){
+		System.out.println("El directorio "+f.getAbsolutePath()+" no existe");
+		System.exit(1);
 	    }
-	    else{
-		library_filename = filename;
+	    
+	    if(!f.isDirectory()){
+		System.out.println("El archivo "+f.getAbsolutePath()+" no es un directorio");
+		System.exit(1);
+	    }
+
+	    boolean failed = false;
+	    if(!f.canExecute()){
+		System.out.println("No se tienen permisos de ejecución sobre "+f.getAbsolutePath());
+		failed = true;
+	    }
+	    if(!f.canRead()){
+		System.out.println("No se tienen permisos de lectura sobre "+f.getAbsolutePath());
+		failed = true;
+	    }
+	    if(failed){
+		System.exit(1);
 	    }
 
 	    XMLElement xspf = new XMLElement();

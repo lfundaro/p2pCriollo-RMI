@@ -19,8 +19,6 @@ public class nodo {
      * @param args Argumentos de la línea de comandos.
      */
     public static void main(String[] args){
-        //mainThread = Thread.currentThread();
-        
         //Parseo de parámetros
         set_params(args);
         
