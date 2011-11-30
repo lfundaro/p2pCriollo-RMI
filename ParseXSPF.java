@@ -6,10 +6,6 @@ import java.io.*;
  * Parser XSPF
  */
 public class ParseXSPF{
-    // public static void main(String args[]){
-    // 	parse(args[0]);
-    // }
-
     /**
      * Parser de archivos XSPF.
      * @param filename Archivo XSPF que se debe parsear.
