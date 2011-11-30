@@ -87,9 +87,9 @@ public class ParseXSPF{
 	}
 	catch(Exception e){}
 	
-	if(directory_library){
-	    (new File(library_filename)).delete();
-	}
+	// if(directory_library){
+	//     (new File(library_filename)).delete();
+	// }
 
 	return sl;
     }
