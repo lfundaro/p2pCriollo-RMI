@@ -1,7 +1,7 @@
-JAVAC = javac
-OPS =
-LINK_OPS =
-ID3LIB = jaudiotagger.jar
+JAVAC = javac 
+OPS = 
+LINK_OPS = 
+ID3LIB = jaudiotagger.jar 
 NANOXMLPATH = nanoxml.jar
 #NANOXMLPATH = /net/raquella/ldc/redes/nanoxml/java/nanoxml-lite-2.2.3.jar
 PARSER_OBJS = Song.java ParseXSPF.java ParseMP3dir.java
