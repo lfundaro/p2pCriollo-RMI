@@ -61,14 +61,14 @@ public class Song{
     public Song(String l, String t, String c, String n, String br, String tl,
             String abm, String y, String gen){
 	location = l;
-	title = t;//t.toLowerCase();
-	creator = c;//c.toLowerCase();
+	title = t;
+	creator = c;
 	node_id = n.toLowerCase();
-        bitRate = br;//br.toLowerCase();
-        trackLength = tl;//tl.toLowerCase();
-        album = abm;//abm.toLowerCase();
-        year  = y;//y.toLowerCase();
-        genre = gen;//gen.toLowerCase();
+        bitRate = br;
+        trackLength = tl;
+        album = abm;
+        year  = y;
+        genre = gen;
     }
 
     /**
