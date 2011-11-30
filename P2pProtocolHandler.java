@@ -44,18 +44,18 @@ public class P2pProtocolHandler implements P2pProtocol {
         ConsultDB = new ConcurrentHashMap<Integer,String>();
         NodeDB = parseKnownNodesFile(knownNodesFilePath);
         SongDB = parseSongFile(musicLib);
-	this.id = id;
+        this.id = id;
         this.app_port = app_port;
-	try{
-	    host = InetAddress.getLocalHost().getHostAddress();
-	}
-	catch(UnknownHostException e){
-	    System.out.println("Error recuperando la Ip del servidor: ");
-	}
+        try{
+            host = InetAddress.getLocalHost().getHostAddress();
+        }
+        catch(UnknownHostException e){
+            System.out.println("Error recuperando la Ip del servidor: ");
+        }
     }
     
-     /**
-     * 
+    /**
+     *
      * Parsea la librería de música XSPF.
      * @param musicLib ruta a la biblioteca de música.
      * @return Un HashMap que mapea de "autor-título" a la estructura.
@@ -68,12 +68,12 @@ public class P2pProtocolHandler implements P2pProtocol {
     
     /**
      * Parsea el archivo de nodos conocidos.
-     * @param knownNodesFilePath ruta al archivo con los nodos conocidos por 
+     * @param knownNodesFilePath ruta al archivo con los nodos conocidos por
      * este nodo.
      * @return lista enlazada de direcciones IP de los nodos conocidos por
      * este nodo.
      */
-    private ArrayList<InetAddress> parseKnownNodesFile(String 
+    private ArrayList<InetAddress> parseKnownNodesFile(String
             knownNodesFilePath){
         ArrayList<InetAddress> Nodes = new ArrayList<InetAddress>();
         try {
@@ -84,14 +84,14 @@ public class P2pProtocolHandler implements P2pProtocol {
                 if (line.length() != 0)
                     Nodes.add(InetAddress.getByName(line));
             }
-       
+            
         }
         catch(FileNotFoundException fnf) {
             System.out.println("Error al abrir archivo: "+fnf);
         }
         catch(IOException e){
-	    System.out.println("I/O Error: "+e);
-	}
+            System.out.println("I/O Error: "+e);
+        }
         return Nodes;
     }
     
@@ -124,8 +124,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                 Matcher m;
                 Collection<Song> s = SongDB.values();
                 Iterator<Song> it = s.iterator();
-                boolean match = false;
-                Song sg = new Song();
+                Song sg;
                 
                 
                 if (st[0].compareTo("W") == 0) {
@@ -136,9 +135,11 @@ public class P2pProtocolHandler implements P2pProtocol {
                     // Por título
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.title);
+                        m = regex.matcher(sg.title.toLowerCase());
                         if (m.find()) { // Hubo match
-                            match = true;
+                            resultadoFinal = resultadoFinal.concat
+                                    (sg.toString()+"@@"+
+                                    P2pProtocolHandler.host+"@@"+this.id+"##");
                         }
                         m.reset();
                     }
@@ -147,9 +148,11 @@ public class P2pProtocolHandler implements P2pProtocol {
                     // Por autor
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.creator);
+                        m = regex.matcher(sg.creator.toLowerCase());
                         if (m.find()) { // Hubo match
-                            match = true;
+                            resultadoFinal = resultadoFinal.concat
+                                    (sg.toString()+"@@"+
+                                    P2pProtocolHandler.host+"@@"+this.id+"##");
                         }
                         m.reset();
                     }
@@ -158,9 +161,11 @@ public class P2pProtocolHandler implements P2pProtocol {
                     // Búsqueda por bitRate
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.bitRate);
+                        m = regex.matcher(sg.bitRate.toLowerCase());
                         if (m.find()) { // Hubo match
-                            match = true;
+                            resultadoFinal = resultadoFinal.concat
+                                    (sg.toString()+"@@"+
+                                    P2pProtocolHandler.host+"@@"+this.id+"##");
                         }
                         m.reset();
                     }
@@ -169,9 +174,11 @@ public class P2pProtocolHandler implements P2pProtocol {
                     // Búsqueda por trackLength
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.trackLength);
+                        m = regex.matcher(sg.trackLength.toLowerCase());
                         if (m.find()) { // Hubo match
-                            match = true;
+                            resultadoFinal = resultadoFinal.concat
+                                    (sg.toString()+"@@"+
+                                    P2pProtocolHandler.host+"@@"+this.id+"##");
                         }
                         m.reset();
                     }
@@ -180,9 +187,11 @@ public class P2pProtocolHandler implements P2pProtocol {
                     // Búsqueda por album
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.album);
+                        m = regex.matcher(sg.album.toLowerCase());
                         if (m.find()) { // Hubo match
-                            match = true;
+                            resultadoFinal = resultadoFinal.concat
+                                    (sg.toString()+"@@"+
+                                    P2pProtocolHandler.host+"@@"+this.id+"##");
                         }
                         m.reset();
                     }
@@ -191,29 +200,27 @@ public class P2pProtocolHandler implements P2pProtocol {
                     // Búsqueda por año
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.year);
+                        m = regex.matcher(sg.year.toLowerCase());
                         if (m.find()) { // Hubo match
-                            match = true;
+                            resultadoFinal = resultadoFinal.concat
+                                    (sg.toString()+"@@"+
+                                    P2pProtocolHandler.host+"@@"+this.id+"##");
                         }
                         m.reset();
                     }
                 }
-                else if (st[0].compareTo("C") == 0) {
-                    // Búsqueda por compositor
+                else if (st[0].compareTo("G") == 0) {
+                    // Búsqueda por género
                     while (it.hasNext()) {
                         sg = it.next();
-                        m = regex.matcher(sg.genre);
+                        m = regex.matcher(sg.genre.toLowerCase());
                         if (m.find()) { // Hubo match
-                            match = true;
+                            resultadoFinal = resultadoFinal.concat
+                                    (sg.toString()+"@@"+
+                                    P2pProtocolHandler.host+"@@"+this.id+"##");
                         }
                         m.reset();
                     }
-                }
-                // Verificar si hubo match
-                if (match) {
-                    resultadoFinal = resultadoFinal.concat
-                            (sg.toString()+"@@"+
-                            P2pProtocolHandler.host+"@@"+this.id+"##");
                 }
                 
                 // Preparar estructura de respuestas
@@ -223,7 +230,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                 ConsultThread[] ct = new ConsultThread[NodeDB.size()];
                 // Crear cada uno de los threads y ejecutarlos.
                 for(int i = 0; i < NodeDB.size(); i++) {
-                    ct[i] = new ConsultThread(i, respuesta, 
+                    ct[i] = new ConsultThread(i, respuesta,
                             NodeDB.get(i).getHostName(), req, "makeConsult");
                     ct[i].start();
                 }
@@ -282,13 +289,8 @@ public class P2pProtocolHandler implements P2pProtocol {
                 ConsultDB.put(req.hash_id, "");
                 // Agregar mi nombre
                 String resp = "";
-                resp = resp.concat(
-//                        (InetAddress.getByName(this.id)).getHostName()+"##");
-                        this.id+"##");
+                resp = resp.concat(this.id+"##");
                 // Agregar nombre de nodos vecinos.
-//                for(int i = 0; i < NodeDB.size(); i++) {
-//                    resp = resp.concat(NodeDB.get(i).getHostName()+"##");
-//                }
                 // Preparar estructura de respuestas
                 String[] respuesta = new String[NodeDB.size()];
                 // Hacer consulta a mis nodos vecinos.
@@ -296,7 +298,7 @@ public class P2pProtocolHandler implements P2pProtocol {
                 ConsultThread[] ct = new ConsultThread[NodeDB.size()];
                 // Crear cada uno de los threads y ejecutarlos.
                 for(int i = 0; i < NodeDB.size(); i++) {
-                    ct[i] = new ConsultThread(i, respuesta, 
+                    ct[i] = new ConsultThread(i, respuesta,
                             NodeDB.get(i).getHostName(),req, "makeReachable");
                     ct[i].start();
                 }

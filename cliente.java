@@ -108,10 +108,10 @@ public class cliente{
                                 req = new P2pRequest(hash.hashCode(),
                                         ("Y@@"+expr).getBytes());  
                             }
-                            // Búsqueda por compositor
-                            else {
+                            // Búsqueda por género
+                            else if (resto[1].compareTo("-g") == 0){
                                 req = new P2pRequest(hash.hashCode(),
-                                        ("C@@"+expr).getBytes());  
+                                        ("G@@"+expr).getBytes());  
                             }
                         }
                         // Búsqueda de todos los archivos
@@ -521,7 +521,7 @@ public class cliente{
             System.out.println("AUTOR: "+current_songs.get(i).creator);
             System.out.println("ALBUM: "+current_songs.get(i).album);
             System.out.println("DURACION: "+current_songs.get(i).trackLength);
-            System.out.println("AÑO: "+current_songs.get(i).trackLength);
+            System.out.println("AÑO: "+current_songs.get(i).year);
             System.out.println("GENERO: "+current_songs.get(i).genre);
             System.out.println("BITRATE: "+current_songs.get(i).bitRate);
             System.out.println("");
