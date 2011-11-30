@@ -10,6 +10,13 @@ import java.util.*;
  *Clase del cliente
  */
 public class cliente{
+    private static class ShutdownHook extends Thread{
+	public void run(){
+	    //System.out.println("asf");
+	    kill_songs();
+	}
+    }
+
     private static int  NULL_HASHID = 0xffffffff;
     private static int node_port = -1;
     private static String node = null;
@@ -18,11 +25,15 @@ public class cliente{
     private static HashMap<String,Song> downloaded_songs = new
             HashMap<String,Song>();
     
+    private static LinkedList<Process> playing_songs = new LinkedList<Process>();
     /**
      *
      * @param args
      */
     public static void main(String args[]) {
+	ShutdownHook hook = new ShutdownHook();
+	Runtime.getRuntime().addShutdownHook(hook);
+
         BufferedReader console = new BufferedReader
                 (new InputStreamReader(System.in));
         boolean running = true;
@@ -251,8 +262,10 @@ public class cliente{
                         }
                         
                         try{
-                            Runtime.getRuntime().exec(new String[]{"cvlc",
-                                download_path+"/"+s.title+"-"+s.creator+".mp3"});
+			    Process p = null;
+                            p = Runtime.getRuntime().exec(new String[]{"cvlc",
+					download_path+"/"+s.title+"-"+s.creator+".mp3"});
+			    playing_songs.add(p);
                         }
                         catch(IOException e){
                             System.out.println("I/O Error: "+e);
@@ -263,8 +276,9 @@ public class cliente{
                     case 'Q':
                     case 'q':
                         running = false;
-                        System.out.println("");
-                        break;
+		        kill_songs();
+		        System.out.println("");
+		        break;
                         
                     case 'h':
                     case 'H':
@@ -453,5 +467,11 @@ public class cliente{
         
         if(download_path == null)
             download_path = ".";
+    }
+
+    private static void kill_songs(){
+	for(Process p:playing_songs){
+	    p.destroy();
+	}
     }
 }
