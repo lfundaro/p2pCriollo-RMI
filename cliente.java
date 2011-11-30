@@ -61,7 +61,6 @@ public class cliente{
                 String ans = null;
                 String[] resto;
                 Song s = new Song();
-                //print_songs();
                 
                 try{
                     command = console.readLine();
