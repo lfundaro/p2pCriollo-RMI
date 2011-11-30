@@ -280,10 +280,10 @@ public class cliente{
     }
     
     /**
-     * Devuelve el número de caracteres.
-     * del título con más caracteres en su nombre.
+     * Devuelve el número de carácteres.
+     * del nodo con más carácteres en su nombre.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del título mas largo.
+     * @return Número de carácteres del nodo más largo.
      */
     private static int longest_node_id(ArrayList<Song> songs){
         int max = 0;
@@ -296,10 +296,10 @@ public class cliente{
     }
 
     /**
-     * Devuelve el número de caracteres.
-     * del título con más caracteres en su nombre.
+     * Devuelve el número de carácteres.
+     * del título con más carácteres en su nombre.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del título mas largo.
+     * @return Número de carácteres del título más largo.
      */
     private static int longest_title(ArrayList<Song> songs){
         int max = 0;
@@ -312,10 +312,10 @@ public class cliente{
     }
     
     /**
-     * Devuelve el número de caracteres del autor con mas
-     * caracteres en su nombre.
+     * Devuelve el número de carácteres del autor con más
+     * carácteres en su nombre.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del autor mas largo.
+     * @return Número de carácteres del autor más largo.
      */
     private static int longest_creator(ArrayList<Song> songs){
         int max = 0;
@@ -328,10 +328,10 @@ public class cliente{
     }
     
     /**
-     * Devuelve el número de caracteres del autor con mas
-     * caracteres en su nombre.
+     * Devuelve el número de carácteres del album con más
+     * carácteres en su nombre.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del autor mas largo.
+     * @return Número de carácteres del album más largo.
      */
     private static int longest_album(ArrayList<Song> songs){
         int max = 0;
@@ -344,10 +344,10 @@ public class cliente{
     }
     
     /**
-     * Devuelve el número de caracteres del autor con mas
-     * caracteres en su nombre.
+     * Devuelve el número de carácteres de la duración con más
+     * carácteres.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del autor mas largo.
+     * @return Número de carácteres de la duración más larga.
      */
     private static int longest_duration(ArrayList<Song> songs){
         int max = 0;
@@ -360,10 +360,10 @@ public class cliente{
     }
     
     /**
-     * Devuelve el número de caracteres del autor con mas
-     * caracteres en su nombre.
+     * Devuelve el número de carácteres del año con más
+     * carácteres.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del autor mas largo.
+     * @return Número de carácteres del año más largo.
      */
     private static int longest_year(ArrayList<Song> songs){
         int max = 0;
@@ -376,10 +376,10 @@ public class cliente{
     }
     
     /**
-     * Devuelve el número de caracteres del autor con mas
-     * caracteres en su nombre.
+     * Devuelve el número de carácteres del autor con más
+     * carácteres en su nombre.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del autor mas largo.
+     * @return Número de carácteres del autor más largo.
      */
     private static int longest_genre(ArrayList<Song> songs){
         int max = 0;
@@ -392,10 +392,10 @@ public class cliente{
     }
     
     /**
-     * Devuelve el número de caracteres del autor con mas
-     * caracteres en su nombre.
+     * Devuelve el número de carácteres del bitrate con más
+     * carácteres.
      * @param songs Canciones que serán analizadas.
-     * @return Número de caracteres del autor mas largo.
+     * @return Número de carácteres del bitrate más largo.
      */
     private static int longest_bitrate(ArrayList<Song> songs){
         int max = 0;
@@ -518,6 +518,13 @@ public class cliente{
         return;
     }
 
+    /**
+     * Trunca un string si tiene de 'max_chars' caráteres.
+     * Se completa el string con '...'
+     * @param max_chars Número de carácteres a partir de los cuales se trunca el string
+     * @param s String a truncar
+     * @return String truncado
+     */    
     private static String trunkate(int max_chars, String s){
 	if(s.length() >= max_chars+3){
 	    s = s.substring(0,max_chars-1);

@@ -12,6 +12,7 @@ import org.jaudiotagger.tag.id3.ID3v24Tag;
    Parser de la librería Mp3
 */
 public class ParseMP3dir{
+
     private static void printStuff(ID3v24Tag tag, MP3AudioHeader header){
 	System.out.println("TITLE: "+tag.getFirst(ID3v24Frames.FRAME_ID_TITLE));
 	System.out.println("ARTIST: "+tag.getFirst(ID3v24Frames.FRAME_ID_ARTIST));
@@ -27,8 +28,15 @@ public class ParseMP3dir{
 	System.out.println();
     }
 
+    /**
+     * Añade una canción al árbol XSPF.
+     * @param f mp3 a analizar
+     * @param tag Tag IDv2.4 del archivo mp3.
+     * @param header Frames IDv2.4 con información específica de MP3.
+     * @param trackList Elemento XML en donde se agregaran las canciones.
+     */
     private static void addSong(File f, ID3v24Tag tag, MP3AudioHeader header,
-			       XMLElement trackList){
+				XMLElement trackList){
 
 	XMLElement song = new XMLElement();
 	song.setName("track");
@@ -75,20 +83,25 @@ public class ParseMP3dir{
 	trackList.addChild(song);
     }
 
+    /**
+     * Genera un elemento XML con nombre 'name'
+     * @param name Nombre del elemento XML
+     * @return Elemento XML generado
+     */
     private static XMLElement genAttr(String name){
 	XMLElement attr = new XMLElement();
 	attr.setName(name);
 	return attr;
     }
 
+    /**
+     * Parseador de archivos XSPF.
+     * @param lib Directorio con los archivos mp3 a parsear
+     * @return Nombre del archivo XSPF generado
+     */
     public static String parse(String lib){
 	File xspf = null;
 	try{
-	    // File bla = new File("libreRia/one - nnetallica.mp3");
-	    // MP3File mp3bla = (MP3File)AudioFileIO.read(bla);
-	    // ID3v24Tag tagbla = mp3bla.getID3v2TagAsv24();
-	    // printStuff(tagbla);
-
 	    XMLElement playlist  = new XMLElement();
 	    playlist.setName("playlist");
 
@@ -112,7 +125,6 @@ public class ParseMP3dir{
 			dirs.add(f);
 		    }
 		    else{
-			//System.out.println("TARA");
 			MP3File mp3 = null;
 			try{
 			    mp3 = (MP3File)AudioFileIO.read(f);
@@ -143,10 +155,5 @@ public class ParseMP3dir{
 	}
 
 	return xspf.getAbsolutePath();
-    }
-    
-    // public static void main(String args[]){
-    // 	System.out.println(parse(args[0]));
-    // }
-    
+    }    
 }
