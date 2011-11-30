@@ -50,7 +50,7 @@ public class cliente{
                 String ans = null;
                 String[] resto;
                 Song s = new Song();
-                print_songs();
+                //print_songs();
                 
                 try{
                     command = console.readLine();
@@ -121,6 +121,7 @@ public class cliente{
                         }
                         ans = stub.makeConsult(req);
                         current_songs = parse_songs(ans);
+                        print_songs();
                         System.out.println("");
                         break;
                         
@@ -163,6 +164,7 @@ public class cliente{
                                          node_port);
                                  tmp_stub = (P2pProtocol)
                                          tmp_registry.lookup("P2pProtocol");
+                                 System.out.println("Descargando...");
                                  res = tmp_stub.getSong(req);
                                  fos.write(res);
                                  fos.close();
@@ -211,9 +213,27 @@ public class cliente{
                                 FileOutputStream fos = new FileOutputStream
                                         (download_path+"/"+
                                         (s.title+"-"+s.creator)+".mp3");
-                                byte[] res = stub.getSong(req);
-                                fos.write(res);
-                                fos.close();
+                                P2pProtocol tmp_stub;
+                                byte[] res = null;
+                                try {
+                                    Registry tmp_registry =
+                                            LocateRegistry.getRegistry(s.location,
+                                            node_port);
+                                    tmp_stub = (P2pProtocol)
+                                            tmp_registry.lookup("P2pProtocol");
+                                    System.out.println("Descargando...");
+                                    res = tmp_stub.getSong(req);
+                                    fos.write(res);
+                                    fos.close();
+                                    System.out.println(s.title+"-"+s.creator+
+                                            ": "+ "Descargada"); 
+                                } catch(RemoteException re) {
+                                    System.out.println("Error: "+re);
+                                    return;
+                                } catch(NotBoundException nbe) {
+                                    System.out.println("Error: "+nbe);
+                                }
+                             
                                 
                                 if(res != null){
                                     Song ds = new Song();
@@ -223,6 +243,8 @@ public class cliente{
                                             s.creator,ds);
                                 }
                             }
+                            System.out.println("Reproduciendo: "+s.title
+                                    +"-"+s.creator);
                         }
                         else{
                             System.out.println("Comando Play malformado");
