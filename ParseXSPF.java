@@ -92,25 +92,25 @@ public class ParseXSPF{
 	    s.location = attr.getContent(); 
         }
 	else if (attr_name.compareTo("title") == 0){
-	    s.title = attr.getContent();//.toLowerCase();
+	    s.title = attr.getContent();
 	}
 	else if (attr_name.compareTo("creator") == 0){
-	    s.creator = attr.getContent();//.toLowerCase();
+	    s.creator = attr.getContent();
 	}
 	else if (attr_name.compareTo("album") == 0){
-	    s.album = attr.getContent();//.toLowerCase();
+	    s.album = attr.getContent();
 	}
 	else if (attr_name.compareTo("duration") == 0){
-	    s.trackLength = attr.getContent();//.toLowerCase();
+	    s.trackLength = attr.getContent();
 	}
 	else if (attr_name.compareTo("year") == 0){
-	    s.year = attr.getContent();//.toLowerCase();
+	    s.year = attr.getContent();
 	}
 	else if (attr_name.compareTo("genre") == 0){
-	    s.genre = attr.getContent();//.toLowerCase();
+	    s.genre = attr.getContent();
 	}
 	else if (attr_name.compareTo("bitrate") == 0){
-	    s.bitRate = attr.getContent();//.toLowerCase();
+	    s.bitRate = attr.getContent();
 	}
     }
 }

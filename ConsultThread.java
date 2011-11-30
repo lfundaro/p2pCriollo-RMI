@@ -20,6 +20,7 @@ public class ConsultThread extends Thread {
     String host;
     P2pRequest req;
     String op;
+    int port;
     
     /**
      * Constructor.
@@ -32,12 +33,13 @@ public class ConsultThread extends Thread {
      * @param op Operación a realizar.
      */
     public ConsultThread(int i, String[] respuesta, String host,
-			 P2pRequest req, String op) {
+			 P2pRequest req, String op, int port) {
         pos = i;
         result = respuesta;
         this.host = host;
         this.req = req;
         this.op = op;
+        this.port = port;
     }
    
    /**
@@ -50,7 +52,7 @@ public class ConsultThread extends Thread {
            P2pProtocol stub = null;
            String ans = "";
            try {
-               Registry registry = LocateRegistry.getRegistry(host);
+               Registry registry = LocateRegistry.getRegistry(host,port);
                stub = (P2pProtocol) registry.lookup("P2pProtocol");
            } catch(RemoteException re) {
                System.out.println("Error: "+re);

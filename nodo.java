@@ -1,6 +1,5 @@
 import java.io.*;
 import java.rmi.AlreadyBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -19,7 +18,7 @@ public class nodo {
      * 
      * @param args Argumentos de la línea de comandos.
      */
-    public static void main(String[] args) throws RemoteException {
+    public static void main(String[] args)  {
         //mainThread = Thread.currentThread();
         
         //Parseo de parámetros

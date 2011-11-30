@@ -231,7 +231,8 @@ public class P2pProtocolHandler implements P2pProtocol {
                 // Crear cada uno de los threads y ejecutarlos.
                 for(int i = 0; i < NodeDB.size(); i++) {
                     ct[i] = new ConsultThread(i, respuesta,
-                            NodeDB.get(i).getHostName(), req, "makeConsult");
+                            NodeDB.get(i).getHostName(), req, "makeConsult",
+                            app_port);
                     ct[i].start();
                 }
                 // Espero que todos los threads terminen su ejecución
@@ -299,7 +300,8 @@ public class P2pProtocolHandler implements P2pProtocol {
                 // Crear cada uno de los threads y ejecutarlos.
                 for(int i = 0; i < NodeDB.size(); i++) {
                     ct[i] = new ConsultThread(i, respuesta,
-                            NodeDB.get(i).getHostName(),req, "makeReachable");
+                            NodeDB.get(i).getHostName(),req, "makeReachable",
+                            app_port);
                     ct[i].start();
                 }
                 // Espero que todos los threads terminen su ejecución
@@ -330,7 +332,8 @@ public class P2pProtocolHandler implements P2pProtocol {
         // Nombre de archivo ?
         String nombreMP3 = new String(req.data);
         // Buscar en SongDB
-        String rutaArchivo = SongDB.get(nombreMP3).location;
+        Song sg = SongDB.get(nombreMP3);
+        String rutaArchivo = sg.location;
         // Cargar archivo
         try {
             File cancion = new File(rutaArchivo);

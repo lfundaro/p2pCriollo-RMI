@@ -147,7 +147,7 @@ public class cliente{
                                 System.out.println("");
                                 break;
                             }
-                            
+
                             s = current_songs.get(index);
                             req = new P2pRequest(NULL_HASHID, 
                                     (s.title+"-"+s.creator).getBytes());
@@ -155,10 +155,25 @@ public class cliente{
                             FileOutputStream fos = new FileOutputStream
                                     (download_path+"/"+
                                     (s.title+"-"+s.creator)+".mp3");
-                            byte[] res = stub.getSong(req);
-                            fos.write(res);
-                            fos.close();
-                            
+                            P2pProtocol tmp_stub;
+                             byte[] res = null;
+                             try {
+                                 Registry tmp_registry =
+                                         LocateRegistry.getRegistry(s.location,
+                                         node_port);
+                                 tmp_stub = (P2pProtocol)
+                                         tmp_registry.lookup("P2pProtocol");
+                                 res = tmp_stub.getSong(req);
+                                 fos.write(res);
+                                 fos.close();
+                             } catch(RemoteException re) {
+                                 System.out.println("Error: "+re);
+                                 return;
+                             } catch(NotBoundException nbe) {
+                                 System.out.println("Error: "+nbe);
+                             }
+                             
+              
                             if(res != null){
                                 Song ds = new Song();
                                 ds.title   = s.title;
@@ -257,8 +272,8 @@ public class cliente{
      */
     private static void usage() {
         System.out.println("Opciones:");
-        System.out.println("-a   Mostrar nodos alcanzables.");
-        System.out.println("-c [-t | -a | -b | -tl | -abm |"
+        System.out.println("a   Mostrar nodos alcanzables.");
+        System.out.println("c [-t | -a | -b | -tl | -abm |"
                 + " -y] [expr] Consultar canciones en la red.");
         System.out.println("     -t expr Búsqueda por título "
                 + "según expresión.");
@@ -272,173 +287,13 @@ public class cliente{
                 + "según expresión.");
         System.out.println("     -y expr Búsqueda por año "
                 + "según expresión");
-        System.out.println("-d num Descarga canción identi"
+        System.out.println("d num Descarga canción identi"
                 + "ficada por num");
-        System.out.println("-p num Reproduce canción identi"
+        System.out.println("p num Reproduce canción identi"
                 + "ficada por num. Si la canción no está en la"
                 + " carpeta de descarga, entonces se descarga y"
                 + " se reproduce.");
         System.out.println("");
-    }
-    
-    /**
-     * Devuelve el número de carácteres.
-     * del nodo con más carácteres en su nombre.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres del nodo más largo.
-     */
-    private static int longest_node_id(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).node_id.length();
-            if (aux > max)
-                max = aux;
-        }
-        return max;
-    }
-
-    /**
-     * Devuelve el número de carácteres.
-     * del título con más carácteres en su nombre.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres del título más largo.
-     */
-    private static int longest_title(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).title.length();
-            if (aux > max)
-                max = aux;
-        }
-        return max;
-    }
-    
-    /**
-     * Devuelve el número de carácteres del autor con más
-     * carácteres en su nombre.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres del autor más largo.
-     */
-    private static int longest_creator(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).creator.length();
-            if ( aux > max)
-                max = aux;
-        }
-        return max;
-    }
-    
-    /**
-     * Devuelve el número de carácteres del album con más
-     * carácteres en su nombre.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres del album más largo.
-     */
-    private static int longest_album(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).album.length();
-            if ( aux > max)
-                max = aux;
-        }
-        return max;
-    }
-    
-    /**
-     * Devuelve el número de carácteres de la duración con más
-     * carácteres.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres de la duración más larga.
-     */
-    private static int longest_duration(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).trackLength.length();
-            if ( aux > max)
-                max = aux;
-        }
-        return max;
-    }
-    
-    /**
-     * Devuelve el número de carácteres del año con más
-     * carácteres.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres del año más largo.
-     */
-    private static int longest_year(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).year.length();
-            if ( aux > max)
-                max = aux;
-        }
-        return max;
-    }
-    
-    /**
-     * Devuelve el número de carácteres del autor con más
-     * carácteres en su nombre.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres del autor más largo.
-     */
-    private static int longest_genre(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).genre.length();
-            if ( aux > max)
-                max = aux;
-        }
-        return max;
-    }
-    
-    /**
-     * Devuelve el número de carácteres del bitrate con más
-     * carácteres.
-     * @param songs Canciones que serán analizadas.
-     * @return Número de carácteres del bitrate más largo.
-     */
-    private static int longest_bitrate(ArrayList<Song> songs){
-        int max = 0;
-        for (int i = 0; i < songs.size(); ++i){
-            int aux = songs.get(i).bitRate.length();
-            if ( aux > max)
-                max = aux;
-        }
-        return max;
-    }
-    
-    /**
-     *
-     * @param n Número a procesar.
-     * @return Número de dígitos del número.
-     */
-    private static int number_of_digits(int n){
-        if (n == 0)
-            return 1;
-        
-        int digits = 0;
-        
-        while(n > 0){
-            digits += 1;
-            n = n/10;
-        }
-        
-        return digits;
-    }
-    
-    /**
-     * Genera un String de espacios en blanco.
-     * @param n Número de espacios en blanco.
-     * @return String de espacios en blanco.
-     */
-    private static String tab(int n){
-        String tab = "";
-        for(int i = 0; i < n; ++i){
-            tab += " ";
-        }
-        return tab;
     }
     
     /**
@@ -467,54 +322,6 @@ public class cliente{
         if (current_songs.size() <= 0){
             return;
         }
-//	String num = "Num";
-//	String autor = "Autor";
-//	String title = "Título";
-//	String node = "Nodo";
-//	String album = "Album";
-//	String duration = "Duración";
-//	String year = "Year";
-//	String genre = "Género";
-//	String bitrate = "Bitrate";
-//
-//        int d = max(number_of_digits(current_songs.size()),num.length());
-//        int ltitle = max(longest_title(current_songs),title.length());
-//        int lcreator = max(longest_creator(current_songs),autor.length());
-//        int lnode_id = max(longest_node_id(current_songs),node.length());
-//        int lalbum = max(longest_album(current_songs),album.length());
-//        int lduration = max(longest_duration(current_songs),duration.length());
-//        int lyear = max(longest_year(current_songs),year.length());
-//        int lgenre = max(longest_genre(current_songs),genre.length());
-//        int lbitrate = max(longest_bitrate(current_songs),bitrate.length());
-//
-//        int sp = 4;
-//
-//        System.out.println(num+tab(d-num.length()+sp) + autor+tab(lcreator-title.length()+sp) +
-//			   title+tab(ltitle-title.length()+sp) + node+tab(lnode_id-node.length()+sp) +
-//			   album+tab(lalbum-album.length()+sp) + duration+tab(lduration-duration.length()+sp) +
-//			   year+tab(lyear-year.length()+sp) + genre+tab(lgenre-genre.length()+sp) +
-//			   bitrate);
-//        for (int i = 0; i < current_songs.size(); ++i){
-//            String cre = trunkate(10,current_songs.get(i).creator);
-//            String tit = trunkate(10,current_songs.get(i).title);
-//            String nid = trunkate(10,current_songs.get(i).node_id);
-//            String alb = trunkate(10,current_songs.get(i).album);
-//            String dur = trunkate(10,current_songs.get(i).trackLength);
-//            String yer = trunkate(10,current_songs.get(i).year);
-//            String gen = trunkate(10,current_songs.get(i).genre);
-//            String bit = trunkate(10,current_songs.get(i).bitRate);
-//            System.out.println(i + tab(d-number_of_digits(i)+sp)+
-//			       cre + tab(lcreator -cre.length()+sp)+
-//			       tit + tab(ltitle   -tit.length()+sp)+
-//			       nid + tab(lnode_id -nid.length()+sp)+
-//			       alb + tab(lalbum   -alb.length()+sp)+
-//			       dur + tab(lduration-dur.length()+sp)+
-//			       yer + tab(lyear    -yer.length()+sp)+
-//			       gen + tab(lgenre   -gen.length()+sp)+
-//			       bit + tab(lbitrate -bit.length()+sp));
-//        }
-//>>>>>>> 39cca232af70602a70a14c1986593d8e62e91a37
-        
         for(int i = 0; i < current_songs.size(); i++) {
             System.out.println("Número: "+i);
             System.out.println("TITULO: "+current_songs.get(i).title);
@@ -524,6 +331,7 @@ public class cliente{
             System.out.println("AÑO: "+current_songs.get(i).year);
             System.out.println("GENERO: "+current_songs.get(i).genre);
             System.out.println("BITRATE: "+current_songs.get(i).bitRate);
+            System.out.println("NODO: "+current_songs.get(i).node_id);
             System.out.println("");
         }
     }
@@ -543,64 +351,7 @@ public class cliente{
 
 	return s;
     }
-    
-//    /**
-//     * Imprime las canciones que resultaron de la última consulta.
-//     */
-//    private static void print_songs(){
-//        if (current_songs.size() <= 0){
-//            return;
-//        }
-//	String num = "Num";
-//	String autor = "Autor";
-//	String title = "Título";
-//	String node = "Nodo";
-//	String album = "Album";
-//	String duration = "Duración";
-//	String year = "Year";
-//	String genre = "Compositor";
-//	String bitrate = "Bitrate";
-//
-//        int d = max(number_of_digits(current_songs.size()),num.length());
-//        int ltitle = max(longest_title(current_songs),title.length());
-//        int lcreator = max(longest_creator(current_songs),autor.length());
-//        int lnode_id = max(longest_node_id(current_songs),node.length());
-//        int lalbum = max(longest_album(current_songs),album.length());
-//        int lduration = max(longest_duration(current_songs),duration.length());
-//        int lyear = max(longest_year(current_songs),year.length());
-//        int lcomposer = max(longest_composer(current_songs),genre.length());
-//        int lbitrate = max(longest_bitrate(current_songs),bitrate.length());
-//
-//        int sp = 4;
-//
-//        System.out.println(num+tab(d-num.length()+sp) + autor+tab(lcreator-title.length()+sp) +
-//			   title+tab(ltitle-title.length()+sp) + node+tab(lnode_id-node.length()+sp) +
-//			   album+tab(lalbum-album.length()+sp) + duration+tab(lduration-duration.length()+sp) +
-//			   year+tab(lyear-year.length()+sp) + genre+tab(lcomposer-genre.length()+sp) +
-//			   bitrate);
-//        for (int i = 0; i < current_songs.size(); ++i){
-//            String cre = current_songs.get(i).creator;
-//            String tit = current_songs.get(i).title;
-//            String nid = current_songs.get(i).node_id;
-//            String alb = current_songs.get(i).album;
-//            String dur = current_songs.get(i).trackLength;
-//            String yer = current_songs.get(i).year;
-//            String com = current_songs.get(i).genre;
-//            String bit = current_songs.get(i).bitRate;
-//            System.out.println(i + tab(d-number_of_digits(i)+sp)+
-//			       cre + tab(lcreator -cre.length()+sp)+
-//			       tit + tab(ltitle   -tit.length()+sp)+
-//			       nid + tab(lnode_id -nid.length()+sp)+
-//			       alb + tab(lalbum   -alb.length()+sp)+
-//			       dur + tab(lduration-dur.length()+sp)+
-//			       yer + tab(lyear    -yer.length()+sp)+
-//			       com + tab(lcomposer-com.length()+sp)+
-//			       bit + tab(lbitrate -bit.length()+sp));
-//        }
-//        
-//        return;
-//    }
-    
+  
     /**
      * Parsea el resultado del comando C.
      * @param ss resultado del comando C.
@@ -633,6 +384,7 @@ public class cliente{
         Song res = new Song();
         String song_data[] = s.split("@@");
         res.creator = song_data[0];
+//        System.out.println("c = "+song_data[0]);
         res.title = song_data[1];
         res.bitRate = song_data[2];
         res.trackLength = song_data[3];
