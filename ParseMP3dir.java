@@ -99,7 +99,6 @@ public class ParseMP3dir{
      * @return Nombre del archivo XSPF generado
      */
     public static String parse(String lib){
-        System.out.println("BLA");
 	File xspf = null;
 
 	XMLElement playlist  = new XMLElement();
@@ -111,6 +110,8 @@ public class ParseMP3dir{
 	playlist.addChild(trackList);
 
 	LinkedList<File> dirs = new LinkedList<File>();
+        System.out.println(lib);
+
 	//Añadimos el directorio inicial
 	File initial_dir = new File(lib);
 	System.out.println(initial_dir.getAbsolutePath()+" no existe");
@@ -171,7 +172,7 @@ public class ParseMP3dir{
 	    xspf = File.createTempFile("libreria",".xspf",initial_dir);
 	    FileWriter xspfWriter = new FileWriter(xspf);
 	    xspfWriter.write(playlist.toString());
-            System.out.println(playlist.toString());
+            //System.out.println(playlist.toString());
 	    xspfWriter.flush();
 	    xspfWriter.close();
 	}
