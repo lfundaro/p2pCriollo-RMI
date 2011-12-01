@@ -10,6 +10,11 @@ import java.util.*;
  *Clase del cliente
  */
 public class cliente{
+
+    /**
+     *Hook para que los procesos que esten reprocuciendo canciones
+     *sean matados cuando finalize el cliente
+     */
     private static class ShutdownHook extends Thread{
 	public void run(){
 	    //System.out.println("asf");
@@ -468,6 +473,9 @@ public class cliente{
             download_path = ".";
     }
 
+    /**
+     * Mata los procesos que esten reproduciendo las canciones
+     */    
     private static void kill_songs(){
 	for(Process p:playing_songs){
 	    p.destroy();
