@@ -3,7 +3,7 @@
 #set -o verbose
 #set -o xtrace
 
-if ! test -a nodo.class
+if ! test -e nodo.class
 then
         echo El bytecode del nodo no existe 1>&2
         exit 1
