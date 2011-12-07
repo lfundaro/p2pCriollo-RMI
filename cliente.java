@@ -29,7 +29,7 @@ public class cliente{
     private static ArrayList<Song> current_songs = new ArrayList<Song>();
     private static HashMap<String,Song> downloaded_songs = new
             HashMap<String,Song>();
-    
+
     private static LinkedList<Process> playing_songs = new LinkedList<Process>();
     /**
      *
@@ -164,6 +164,12 @@ public class cliente{
                                 break;
                             }
 
+                            if(index < 0){
+                                System.out.println("El id "+index+" no es valido");
+                                System.out.println("");
+                                break;
+                            }
+
                             s = current_songs.get(index);
                             req = new P2pRequest(NULL_HASHID, 
                                     (s.title+"-"+s.creator).getBytes());
@@ -215,6 +221,12 @@ public class cliente{
                             if(index >= current_songs.size()){
                                 System.out.println("La cancion con el id "
                                         +index+" no existe");
+                                System.out.println("");
+                                break;
+                            }
+
+                            if(index < 0){
+                                System.out.println("El id "+index+" no es valido");
                                 System.out.println("");
                                 break;
                             }
