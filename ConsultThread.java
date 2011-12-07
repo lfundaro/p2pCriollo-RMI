@@ -31,6 +31,7 @@ public class ConsultThread extends Thread {
      * @param req Petición. Contiene la información relevante sobre la consulta:
      * hash identificador, datos etc.
      * @param op Operación a realizar.
+     * @param port Puerto para establecer conexión con la aplicación.
      */
     public ConsultThread(int i, String[] respuesta, String host,
 			 P2pRequest req, String op, int port) {

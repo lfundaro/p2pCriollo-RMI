@@ -17,7 +17,6 @@ public class cliente{
      */
     private static class ShutdownHook extends Thread{
 	public void run(){
-	    //System.out.println("asf");
 	    kill_songs();
 	}
     }
