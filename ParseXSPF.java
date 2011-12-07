@@ -15,7 +15,6 @@ public class ParseXSPF{
     @SuppressWarnings("unchecked")
 	public static HashMap<String,Song> parse(String filename){
 	HashMap<String,Song> sl = new HashMap<String,Song>();
-	boolean directory_library = false;
 	String library_filename = null;
 	File f = new File(filename);
 
