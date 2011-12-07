@@ -114,7 +114,6 @@ public class ParseMP3dir{
 
 	//Añadimos el directorio inicial
 	File initial_dir = new File(lib);
-	System.out.println(initial_dir.getAbsolutePath()+" no existe");
 	if(!initial_dir.exists()){
 	    System.out.println(initial_dir.getAbsolutePath()+" no existe");
 	    System.exit(1);
